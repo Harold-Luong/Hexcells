@@ -1,0 +1,159 @@
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: Merriweather, Georgia, serif;
+  font-size: 62.5%;
+}
+body {
+  color: hsl(0, 0%, 10%);
+  background-color: hsla(0, 0%, 81%, 0.767);
+
+  max-width: auto;
+  margin: 0 auto;
+  padding: 20px;
+  bottom: 0;
+  top: 0;
+}
+.point {
+  width: auto;
+  text-align: right;
+  .remaining,
+  .mistakes {
+    display: inline-block;
+    padding: 5px;
+    height: auto;
+    background-color: aqua;
+    width: 110px;
+    text-align: center;
+    font-size: 15px;
+    align-items: center;
+  }
+}
+
+.hexagon {
+  position: relative;
+  display: inline-block;
+
+  margin: 1px 7px;
+  background-color: hsl(46, 100%, 46%);
+  text-align: center;
+}
+.hexagon,
+.hexagon::before,
+.hexagon::after {
+  /* easy way: height is width * 1.732*/
+  width: 25px;
+  height: 43.3px;
+  border-radius: 20%/5%;
+}
+.hexagon::before {
+  background-color: inherit;
+  content: "";
+  position: absolute;
+  left: 0;
+  transform: rotate(-60deg);
+}
+.hexagon::after {
+  background-color: inherit;
+  content: "";
+  position: absolute;
+  left: 0;
+  transform: rotate(60deg);
+}
+.hexagon:nth-child(even) {
+  top: 22.5px;
+}
+.hexagon:hover {
+  background-color: rgb(110, 110, 110);
+  cursor: pointer;
+  z-index: 105;
+}
+.hexagon:active {
+  //background-color: rgb(255, 0, 0);
+  z-index: 110;
+}
+.honeycomb {
+  width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  .ibws-fix {
+    font-size: 0;
+    .hexagontent {
+      pointer-events: none;
+      visibility: hidden;
+      color: hsl(0, 0%, 95%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      font-size: 1.4rem;
+      line-height: 1.2;
+      z-index: 110;
+    }
+    .hexanone {
+      visibility: hidden;
+      .hexagontent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140%;
+        font-size: 1.4rem;
+        line-height: 1.2;
+        z-index: 110;
+      }
+    }
+    .black_node {
+      background-color: black;
+      .hexagontent {
+        visibility: visible;
+      }
+    }
+    .blue_node {
+      background-color: rgb(0, 116, 170);
+      .hexagontent {
+        visibility: visible;
+      }
+    }
+  }
+}
+// effect buzz
+.buzz {
+  animation-name: buzz-pro;
+  animation-duration: 1.25s;
+}
+@keyframes buzz-pro {
+  0% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+    background-color: rgb(192, 0, 0);
+  }
+  10% {
+    -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+    background-color: rgb(192, 0, 0);
+  }
+  20% {
+    -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+    background-color: rgb(192, 0, 0);
+  }
+  30% {
+    -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+    background-color: rgb(192, 0, 0);
+  }
+  40% {
+    -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  50% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+  }
+  100% {
+    -webkit-transform: rotate(0) scale(1) skew(1deg);
+  }
+}
