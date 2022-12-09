@@ -357,7 +357,30 @@ blue_node_default.set(240, 8);
 //set black node
 const black_node_default = new Map();
 black_node_default.set(252, 5);
+
+//default number
+const default_number = new Map();
+default_number.set("c11", 10);
+default_number.set("c13", 4);
+default_number.set("c14", 6);
+default_number.set("c15", 4);
+default_number.set("c17", 4);
+default_number.set("c18", 3);
+default_number.set("c21", 9);
+default_number.set("c24", 3);
+default_number.set("c159", 9);
+default_number.set("c129", 5);
+
+const default_number_right = new Map();
+default_number_right.set("c58", 11);
+default_number_right.set("c91", 11);
+default_number_right.set("c125", 9);
+default_number_right.set("c126", 8);
+default_number_right.set("c256", 4);
+default_number_right.set("c170", 7);
+
 export {
+  default_number,
   blue_node_default,
   black_node_default,
   arr_hex_hidden,
@@ -365,4 +388,5 @@ export {
   objHex,
   map_hex_none,
   map_arr_hex_hidden,
+  default_number_right,
 };

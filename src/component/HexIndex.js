@@ -1,10 +1,12 @@
 import React from "react";
 import {
+  default_number,
   blue_node_default,
   black_node_default,
   objHex,
   map_hex_none,
   map_arr_hex_hidden,
+  default_number_right,
 } from "../contains";
 import { useState } from "react";
 import "../style/index.scss";
@@ -124,9 +126,24 @@ const Index = () => {
                 <div
                   style={{ visibility: `${item.hexagontent.style_visibility}` }}
                   className={item.hexagontent.class_content}
+                >
+                  {/* {item.hexagontent.content} {blue_node_default.get(item.id)} */}
+                  {item.id}
+                </div>
+
+                <div
+                  className={
+                    item.hexagontent.class_content +
+                    `${default_number.has("c" + item.id) ? " df-num " : " "}` +
+                    `${
+                      default_number_right.has("c" + item.id)
+                        ? " df-num-right "
+                        : " "
+                    }`
+                  }
                   id={item.hexagontent.id_content}
                 >
-                  {item.hexagontent.content} {blue_node_default.get(item.id)}
+                  {setDefaultNumber(item.hexagontent.id_content)}
                 </div>
               </div>
             );
@@ -140,5 +157,10 @@ const Index = () => {
 const handleClickHexagon = (id) => {
   let element = document.getElementById(id);
   element.classList.add("buzz");
+};
+const setDefaultNumber = (idDF) => {
+  if (idDF === undefined) return;
+  if (default_number.has(idDF)) return default_number.get(idDF);
+  if (default_number_right.has(idDF)) return default_number_right.get(idDF);
 };
 export default Index;

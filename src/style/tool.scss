@@ -21,28 +21,13 @@ body {
   bottom: 0;
   top: 0;
 }
-.point {
-  width: auto;
-  text-align: right;
-  .remaining,
-  .mistakes {
-    display: inline-block;
-    padding: 5px;
-    height: auto;
-    background-color: aqua;
-    width: 110px;
-    text-align: center;
-    font-size: 15px;
-    align-items: center;
-  }
-}
 
 .hexagon {
   position: relative;
   display: inline-block;
-  // visibility: hidden;
+
   margin: 1px 7px;
-  background-color: hsl(46, 100%, 46%);
+  background-color: hsl(45, 6%, 13%);
   text-align: center;
 }
 .hexagon,
@@ -75,14 +60,12 @@ body {
   cursor: pointer;
   z-index: 105;
 }
-.hexagon:active {
-  //background-color: rgb(255, 0, 0);
-  z-index: 110;
-}
+
 .honeycomb {
-  width: 1280px;
+  width: 98%;
   margin: 0 auto;
   text-align: center;
+
   .ibws-fix {
     font-size: 0;
     .hexagontent {
@@ -93,7 +76,6 @@ body {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-
       font-size: 1.4rem;
       line-height: 1.2;
       z-index: 110;
@@ -157,16 +139,10 @@ body {
     -webkit-transform: rotate(0) scale(1) skew(1deg);
   }
 }
-.df-num {
-  color: black !important;
-  margin-top: -35px;
-  font-weight: bold;
+
+.yellow {
+  background-color: rgb(170, 125, 0);
 }
-.df-num-right {
-  color: black !important;
-  transform: rotate(60deg) !important;
-  margin-top: -47px;
-  margin-left: -18px;
-  visibility: visible !important;
-  font-weight: bold;
+input {
+  margin-bottom: 15px;
 }

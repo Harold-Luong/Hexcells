@@ -1,12 +1,16 @@
 // import './style/style.scss'
 import "./style/index.scss";
-import { useState } from "react";
+
 import Index from "./component/HexIndex";
-import "./style/gliched-style.scss";
+import ToolHexCells from "./component/ToolHexCells";
+import Hexlayout from "./component/Hexlayout";
+
 function App() {
   return (
     <>
-      <Index />
+      {/* <Index /> */}
+      <ToolHexCells />
+      <Hexlayout />
     </>
   );
 }
