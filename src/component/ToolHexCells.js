@@ -30,24 +30,43 @@ const ToolHexCells = () => {
       },
     });
   }
-
+  const [stateGenHex, setstateGenHex] = useState({
+    idStartHex: null,
+    numberHex: null,
+    position: "",
+  });
   const [stateObjHex, setStateObjHex] = useState(arrObjHex);
-  const [colHex, setcolHex] = useState("");
-  const [rowHex, setrowHex] = useState("");
+  // const [idStartHex, setidStartHex] = useState("");
+  // const [numberHex, setnumberHex] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let idStartHex = event.target.idStartHex.value;
+    let numberHex = event.target.numberHex.value;
+    let position = event.target.position.value;
 
-    setMessage(`Col start id ${colHex} and has ${rowHex} hex!`);
-    setcolHex("");
-    setrowHex("");
-    evenNumberId(colHex, rowHex);
-    // genHexCol(colHex, rowHex);
+    setstateGenHex({
+      idStartHex: idStartHex,
+      numberHex: numberHex,
+      position: position,
+    });
+
+    setMessage(
+      `Col start id ${stateGenHex.idStartHex} and has ${stateGenHex.numberHex} hex!`
+    );
+    // setidStartHex("");
+    // setnumberHex("");
+    // console.log(idStartHex, numberHex);
+
+    // genHexTopToBottomByNumberId(idStartHex, numberHex);
+    // genHexRightToLeftByNumberId(idStartHex, numberHex);
+    // genHexLeftToRightByNumberId(idStartHex, numberHex);
+    console.log(stateGenHex);
     event.target.reset();
   };
-  const genHexCol = (colHex, numberhex) => {
-    let idNum = parseInt(colHex);
+  const genHexTopToBottomByNumberId = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
     let strId = "id" + idNum;
     let count = 0;
     while (count < parseInt(numberhex)) {
@@ -60,98 +79,199 @@ const ToolHexCells = () => {
       count++;
     }
   };
-  const genHexDiagonal = (diagonalHex, numberhex) => {
-    let idNum = parseInt(diagonalHex);
-    let strId = "id" + idNum;
-    let count = 0;
-    while (count < parseInt(numberhex)) {
-      const ele = document.getElementById(strId);
-      if (ele === null) break;
-      if (idNum % 2 === 0) {
-      } else {
-      }
-      ele.style.backgroundColor = "hsl(46, 100%, 46%)";
-      ele.style.visibility = "visible";
-      idNum += 52;
-      strId = "id" + idNum;
-      count++;
-    }
-  };
-  //so chan
-  const evenNumberId = (evenNumberId, numberhex) => {
+
+  //gen theo duong cheo phai qua trai
+  const genHexRightToLeftByNumberId = (evenNumberId, numberhex) => {
     let idNum = parseInt(evenNumberId);
-    let strId = "id" + idNum;
-    let count = 0;
-    let chan = false;
-
-    while (count < parseInt(numberhex)) {
-      console.log(count);
-      if (chan === false) {
-        count++;
-        console.log(strId);
-        const ele = document.getElementById(strId);
-        if (ele === null) break;
-        ele.style.backgroundColor = "hsl(46, 100%, 46%)";
-        ele.style.visibility = "visible";
-        idNum -= 1;
+    let strId;
+    console.log("numberhex", numberhex);
+    if (idNum % 2 !== 0) {
+      for (let index = 0; index < parseInt(numberhex); index++) {
         strId = "id" + idNum;
-        chan = true;
+        let ele = document.getElementById(strId);
+        if (ele === null) return;
+        if (index % 2 !== 0) {
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum -= 1;
+        } else {
+          ele = document.getElementById(strId);
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 51;
+        }
       }
-
-      if (chan === true) {
-        count++;
-        console.log(strId);
-        const ele = document.getElementById(strId);
-        if (ele === null) break;
-        ele.style.backgroundColor = "hsl(46, 100%, 46%)";
-        ele.style.visibility = "visible";
-        idNum += 51;
+    } else {
+      for (let index = 0; index < parseInt(numberhex); index++) {
         strId = "id" + idNum;
-        chan = false;
+        let ele = document.getElementById(strId);
+        if (ele === null) return;
+        if (index % 2 === 0) {
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum -= 1;
+        } else {
+          ele = document.getElementById(strId);
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 51;
+        }
       }
     }
   };
-  // so le
-  const oddNumberId = () => {};
+  //gen theo duong cheo trai qua phai
+  const genHexLeftToRightByNumberId = (evenNumberId, numberhex) => {
+    let idNum = parseInt(evenNumberId);
+    let strId;
+    console.log("numberhex", numberhex);
+    if (idNum % 2 !== 0) {
+      for (let index = 0; index < parseInt(numberhex); index++) {
+        strId = "id" + idNum;
+        let ele = document.getElementById(strId);
+        if (ele === null) return;
+        if (index % 2 !== 0) {
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 1;
+        } else {
+          ele = document.getElementById(strId);
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 53;
+        }
+      }
+    } else {
+      for (let index = 0; index < parseInt(numberhex); index++) {
+        strId = "id" + idNum;
+        let ele = document.getElementById(strId);
+        if (ele === null) return;
+        if (index % 2 === 0) {
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 1;
+        } else {
+          ele = document.getElementById(strId);
+          ele.style.backgroundColor = "hsl(46, 100%, 46%)";
+          ele.style.visibility = "visible";
+          idNum += 53;
+        }
+      }
+    }
+  };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          id="colHex"
-          name="colHex"
-          value={colHex}
-          placeholder="Col number hex"
-          onChange={(event) => setcolHex(event.target.value)}
-        />
+      <table>
+        <thead>
+          <tr>
+            <th>Gen Col hex</th>
+            <th>Gen Col hex from Right to Left</th>
+            <th>Gen Col hex from Left to Right</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="number"
+                  id="idStartHex"
+                  name="idStartHex"
+                  placeholder="Id start hex"
+                />
 
-        <br />
+                <br />
 
-        <input
-          type="number"
-          id="rowHex"
-          name="rowHex"
-          value={rowHex}
-          placeholder="Row number hex"
-          onChange={(event) => {
-            setrowHex(event.target.value);
-          }}
-        />
+                <input
+                  type="number"
+                  id="numberHex"
+                  name="numberHex"
+                  placeholder="Number hex"
+                />
+                <input
+                  type="hidden"
+                  name="position"
+                  id="position"
+                  value="left"
+                />
 
-        <br />
+                <br />
 
-        <button type="submit">Submit</button>
+                <button type="submit">Submit</button>
+                <h2>{message}</h2>
+              </form>
+              <br /> <br /> <br />
+            </td>
+            {/* <td>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="number"
+                  id="idStartHex"
+                  name="idStartHex"
+                  value={idStartHex}
+                  placeholder="Id start hex"
+                  onChange={(event) => setidStartHex(event.target.value)}
+                />
 
-        <br />
-        <br />
+                <br />
 
-        <h2>{message}</h2>
+                <input
+                  type="number"
+                  id="numberHex"
+                  name="numberHex"
+                  value={numberHex}
+                  placeholder="Number hex"
+                  onChange={(event) => {
+                    setnumberHex(event.target.value);
+                  }}
+                />
 
-        <br />
-        <br />
-        <br />
-        <br />
-      </form>
+                <br />
+
+                <button type="submit">Submit</button>
+
+                <br />
+                <br />
+
+                <h2>{message}</h2>
+              </form>
+            </td> */}
+            {/* <td>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="number"
+                  id="idStartHex"
+                  name="idStartHex"
+                  value={idStartHex}
+                  placeholder="Id start hex"
+                  onChange={(event) => setidStartHex(event.target.value)}
+                />
+
+                <br />
+
+                <input
+                  type="number"
+                  id="numberHex"
+                  name="numberHex"
+                  value={numberHex}
+                  placeholder="Number hex"
+                  onChange={(event) => {
+                    setnumberHex(event.target.value);
+                  }}
+                />
+
+                <br />
+
+                <button type="submit">Submit</button>
+
+                <br />
+                <br />
+
+                <h2>{message}</h2>
+              </form>
+            </td> */}
+          </tr>
+        </tbody>
+      </table>
 
       <div className="honeycomb">
         <div className="ibws-fix">

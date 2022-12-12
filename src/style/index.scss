@@ -170,3 +170,18 @@ body {
   visibility: visible !important;
   font-weight: bold;
 }
+
+// table
+table {
+  width: 80%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th,
+td {
+  text-align: center;
+  padding: 5px;
+}
+tr:nth-child(even) {
+  background-color: #ddd;
+}
