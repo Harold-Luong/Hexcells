@@ -9,7 +9,7 @@ import {
   default_number_right,
 } from "../contains";
 import { useState } from "react";
-import "../style/index.scss";
+// import "../style/index.scss";
 
 const Index = () => {
   let arrObjHex = [];
@@ -127,7 +127,6 @@ const Index = () => {
                   style={{ visibility: `${item.hexagontent.style_visibility}` }}
                   className={item.hexagontent.class_content}
                 >
-                  {/* {item.hexagontent.content} {blue_node_default.get(item.id)} */}
                   {item.id}
                 </div>
 

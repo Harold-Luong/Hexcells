@@ -25,7 +25,7 @@ body {
 .hexagon {
   position: relative;
   display: inline-block;
-
+  // visibility: hidden;
   margin: 1px 7px;
   background-color: hsl(45, 6%, 13%);
   text-align: center;
@@ -70,7 +70,7 @@ body {
     font-size: 0;
     .hexagontent {
       pointer-events: none;
-      // visibility: hidden;
+      //visibility: hidden;
       color: hsl(0, 0%, 95%);
       position: absolute;
       top: 50%;

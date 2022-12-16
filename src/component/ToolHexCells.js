@@ -1,8 +1,10 @@
 import React from "react";
 import "../style/tool.scss";
-
+import { nHex } from "./LogicFunc";
 import { useState } from "react";
+import { getToHex } from "./LetCheck";
 const ToolHexCells = () => {
+  console.log(nHex);
   const totalHex = 1144;
   const objHex = {
     id: "",
@@ -30,39 +32,23 @@ const ToolHexCells = () => {
       },
     });
   }
-  const [stateGenHex, setstateGenHex] = useState({
-    idStartHex: null,
-    numberHex: null,
-    position: "",
-  });
-  const [stateObjHex, setStateObjHex] = useState(arrObjHex);
-  // const [idStartHex, setidStartHex] = useState("");
-  // const [numberHex, setnumberHex] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = (event) => {
+  const [idStartHex, setidStartHex] = useState("");
+  const [numberHex, setnumberHex] = useState("");
+  const handleSubmitCol = (event) => {
     event.preventDefault();
-    let idStartHex = event.target.idStartHex.value;
-    let numberHex = event.target.numberHex.value;
-    let position = event.target.position.value;
+    genHexTopToBottomByNumberId(idStartHex, numberHex);
+    event.target.reset();
+  };
+  const handleSubmitLeft = (event) => {
+    event.preventDefault();
+    genHexLeftToRightByNumberId(idStartHex, numberHex);
+    event.target.reset();
 
-    setstateGenHex({
-      idStartHex: idStartHex,
-      numberHex: numberHex,
-      position: position,
-    });
-
-    setMessage(
-      `Col start id ${stateGenHex.idStartHex} and has ${stateGenHex.numberHex} hex!`
-    );
-    // setidStartHex("");
-    // setnumberHex("");
-    // console.log(idStartHex, numberHex);
-
-    // genHexTopToBottomByNumberId(idStartHex, numberHex);
-    // genHexRightToLeftByNumberId(idStartHex, numberHex);
-    // genHexLeftToRightByNumberId(idStartHex, numberHex);
-    console.log(stateGenHex);
+    // set css in elemnent
+  };
+  const handleSubmitRight = (event) => {
+    event.preventDefault();
+    genHexRightToLeftByNumberId(idStartHex, numberHex);
     event.target.reset();
   };
   const genHexTopToBottomByNumberId = (idStartHex, numberhex) => {
@@ -79,10 +65,9 @@ const ToolHexCells = () => {
       count++;
     }
   };
-
   //gen theo duong cheo phai qua trai
-  const genHexRightToLeftByNumberId = (evenNumberId, numberhex) => {
-    let idNum = parseInt(evenNumberId);
+  const genHexRightToLeftByNumberId = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
     let strId;
     console.log("numberhex", numberhex);
     if (idNum % 2 !== 0) {
@@ -120,15 +105,15 @@ const ToolHexCells = () => {
     }
   };
   //gen theo duong cheo trai qua phai
-  const genHexLeftToRightByNumberId = (evenNumberId, numberhex) => {
-    let idNum = parseInt(evenNumberId);
+  const genHexLeftToRightByNumberId = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
     let strId;
-    console.log("numberhex", numberhex);
+
     if (idNum % 2 !== 0) {
       for (let index = 0; index < parseInt(numberhex); index++) {
         strId = "id" + idNum;
         let ele = document.getElementById(strId);
-        if (ele === null) return;
+        if (ele === null) break;
         if (index % 2 !== 0) {
           ele.style.backgroundColor = "hsl(46, 100%, 46%)";
           ele.style.visibility = "visible";
@@ -144,7 +129,7 @@ const ToolHexCells = () => {
       for (let index = 0; index < parseInt(numberhex); index++) {
         strId = "id" + idNum;
         let ele = document.getElementById(strId);
-        if (ele === null) return;
+        if (ele === null) break;
         if (index % 2 === 0) {
           ele.style.backgroundColor = "hsl(46, 100%, 46%)";
           ele.style.visibility = "visible";
@@ -158,25 +143,29 @@ const ToolHexCells = () => {
       }
     }
   };
+
   return (
     <div>
+      <button onClick={getToHex}>Generate</button>
       <table>
         <thead>
           <tr>
             <th>Gen Col hex</th>
-            <th>Gen Col hex from Right to Left</th>
             <th>Gen Col hex from Left to Right</th>
+            <th>Gen Col hex from Right to Left</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmitCol}>
                 <input
                   type="number"
                   id="idStartHex"
                   name="idStartHex"
                   placeholder="Id start hex"
+                  // value={idStartHex}
+                  onChange={(event) => setidStartHex(event.target.value)}
                 />
 
                 <br />
@@ -186,6 +175,8 @@ const ToolHexCells = () => {
                   id="numberHex"
                   name="numberHex"
                   placeholder="Number hex"
+                  // value={numberHex}
+                  onChange={(event) => setnumberHex(event.target.value)}
                 />
                 <input
                   type="hidden"
@@ -197,18 +188,17 @@ const ToolHexCells = () => {
                 <br />
 
                 <button type="submit">Submit</button>
-                <h2>{message}</h2>
               </form>
               <br /> <br /> <br />
             </td>
-            {/* <td>
-              <form onSubmit={handleSubmit}>
+            <td>
+              <form onSubmit={handleSubmitLeft}>
                 <input
                   type="number"
                   id="idStartHex"
                   name="idStartHex"
-                  value={idStartHex}
                   placeholder="Id start hex"
+                  // value={idStartHex}
                   onChange={(event) => setidStartHex(event.target.value)}
                 />
 
@@ -218,31 +208,26 @@ const ToolHexCells = () => {
                   type="number"
                   id="numberHex"
                   name="numberHex"
-                  value={numberHex}
                   placeholder="Number hex"
-                  onChange={(event) => {
-                    setnumberHex(event.target.value);
-                  }}
+                  // value={numberHex}
+                  onChange={(event) => setnumberHex(event.target.value)}
                 />
+                <input type="hidden" name="position" id="position" />
 
                 <br />
 
                 <button type="submit">Submit</button>
-
-                <br />
-                <br />
-
-                <h2>{message}</h2>
               </form>
-            </td> */}
-            {/* <td>
-              <form onSubmit={handleSubmit}>
+              <br /> <br /> <br />
+            </td>
+            <td>
+              <form onSubmit={handleSubmitRight}>
                 <input
                   type="number"
                   id="idStartHex"
                   name="idStartHex"
-                  value={idStartHex}
                   placeholder="Id start hex"
+                  // value={idStartHex}
                   onChange={(event) => setidStartHex(event.target.value)}
                 />
 
@@ -252,30 +237,30 @@ const ToolHexCells = () => {
                   type="number"
                   id="numberHex"
                   name="numberHex"
-                  value={numberHex}
                   placeholder="Number hex"
-                  onChange={(event) => {
-                    setnumberHex(event.target.value);
-                  }}
+                  // value={numberHex}
+                  onChange={(event) => setnumberHex(event.target.value)}
+                />
+                <input
+                  type="hidden"
+                  name="position"
+                  id="position"
+                  value="left"
                 />
 
                 <br />
 
                 <button type="submit">Submit</button>
-
-                <br />
-                <br />
-
-                <h2>{message}</h2>
               </form>
-            </td> */}
+              <br /> <br /> <br />
+            </td>
           </tr>
         </tbody>
       </table>
 
       <div className="honeycomb">
         <div className="ibws-fix">
-          {stateObjHex.map((item) => {
+          {arrObjHex.map((item) => {
             return (
               <div key={item.id} className={item.main_class} id={item.id}>
                 <div
