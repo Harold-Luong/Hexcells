@@ -1,13 +1,11 @@
-// import './style/style.scss'
-import "./style/index.scss";
-
-import ToolHexCells from "./component/ToolHexCells";
+import Index from "./component/HexIndex";
+// import ToolHexCells from "./component/ToolHexCells";
 
 function App() {
   return (
     <>
-      {/* <HexIndex /> */}
-      <ToolHexCells />
+      <Index />
+      {/* <ToolHexCells /> */}
     </>
   );
 }

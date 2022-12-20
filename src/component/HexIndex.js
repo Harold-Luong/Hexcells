@@ -1,24 +1,26 @@
 import React from "react";
 import {
-  default_number,
   blue_node_default,
   black_node_default,
   objHex,
   map_hex_none,
-  map_arr_hex_hidden,
+  default_number_top,
+  default_number_left,
   default_number_right,
+  mapALL,
 } from "../contains";
 import { useState } from "react";
-// import "../style/index.scss";
-
+import "../style/index.scss";
+import "../style/togglebutton.scss";
 const Index = () => {
   let arrObjHex = [];
   //add arrObjHex
-  for (let index = 1; index < 513; index++) {
-    if (map_hex_none.has(index)) {
+  for (let index = 1; index < 613; index++) {
+    if (!mapALL().has(index) || map_hex_none.has(index)) {
       arrObjHex.push({
         ...objHex,
         id: index,
+
         class_hex_none: "hexanone",
         hexagontent: {
           ...objHex.hexagontent,
@@ -29,15 +31,15 @@ const Index = () => {
       arrObjHex.push({
         ...objHex,
         id: index,
+        style_color: "rgb(0, 116, 170)",
         hexagontent: {
           ...objHex.hexagontent,
           id_content: "c" + index,
-          content: map_arr_hex_hidden.get(index),
+          content: mapALL().get(index),
         },
       });
     }
   }
-
   const [stateObjHex, setStateObjHex] = useState(arrObjHex);
   const [point, setPoint] = useState({
     mistakes: 0,
@@ -89,6 +91,21 @@ const Index = () => {
         break;
     }
   };
+  //add buzz effect
+  const handleClickHexagon = (id) => {
+    let element = document.getElementById(id);
+    element.classList.add("buzz");
+  };
+  //check box
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      console.log("✅ Checkbox is checked");
+    } else {
+      console.log("⛔️ Checkbox is NOT checked");
+    }
+    setIsSubscribed((current) => !current);
+  };
 
   return (
     <div id="content">
@@ -103,6 +120,73 @@ const Index = () => {
           <h2 id="number-mistakes">{point.mistakes}</h2>
         </div>
         <br></br>
+      </div>
+      {/* --------------- */}
+      <div className="honeycomb">
+        <table className="ibws-fix">
+          <thead>
+            <tr>
+              <th>input value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <form>
+                  <input
+                    type="number"
+                    id="idStartHex"
+                    name="idStartHex"
+                    placeholder=" number hex top"
+                    // value={idStartHex}
+                    //  onChange={(event) => setidStartHex(event.target.value)}
+                  />{" "}
+                  <input
+                    type="number"
+                    id="idStartHex"
+                    name="idStartHex"
+                    placeholder=" number hex left"
+                    // value={idStartHex}
+                    //  onChange={(event) => setidStartHex(event.target.value)}
+                  />{" "}
+                  <input
+                    type="number"
+                    id="idStartHex"
+                    name="idStartHex"
+                    placeholder="value number right"
+                    // value={idStartHex}
+                    //  onChange={(event) => setidStartHex(event.target.value)}
+                  />
+                  <br />
+                  <br />
+                  <input
+                    type="hidden"
+                    name="position"
+                    id="position"
+                    value="left"
+                  />
+                  <button type="submit">Submit</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <div>
+          <p>show yellow</p>
+
+          <label className="switch">
+            <input
+              type="checkbox"
+              id="togBtn"
+              value={isSubscribed}
+              onChange={handleChange}
+              name="togBtn"
+            />
+            <div className="slider round"></div>
+          </label>
+        </div>
+        <hr />
       </div>
       <div className="honeycomb">
         <div className="ibws-fix">
@@ -125,41 +209,28 @@ const Index = () => {
               >
                 <div
                   style={{ visibility: `${item.hexagontent.style_visibility}` }}
-                  className={item.hexagontent.class_content}
-                >
-                  {item.id}
-                </div>
-
-                <div
                   className={
                     item.hexagontent.class_content +
-                    `${default_number.has("c" + item.id) ? " df-num " : " "}` +
                     `${
-                      default_number_right.has("c" + item.id)
-                        ? " df-num-right "
-                        : " "
-                    }`
+                      default_number_right.has(item.id) ? " df-num-right" : ""
+                    }` +
+                    `${default_number_left.has(item.id) ? " df-num-left" : ""}`
                   }
-                  id={item.hexagontent.id_content}
                 >
-                  {setDefaultNumber(item.hexagontent.id_content)}
+                  {item.hexagontent.content}
+                  {default_number_left.get(item.id)}
+                  {default_number_right.get(item.id)}
+                  {default_number_top.get(item.id)}
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+      <br></br>
+      <br></br>
     </div>
   );
 };
 
-const handleClickHexagon = (id) => {
-  let element = document.getElementById(id);
-  element.classList.add("buzz");
-};
-const setDefaultNumber = (idDF) => {
-  if (idDF === undefined) return;
-  if (default_number.has(idDF)) return default_number.get(idDF);
-  if (default_number_right.has(idDF)) return default_number_right.get(idDF);
-};
 export default Index;

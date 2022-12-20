@@ -1,11 +1,10 @@
 import React from "react";
 import "../style/tool.scss";
-import { nHex } from "./LogicFunc";
+import { arrDefaultNode } from "../contains";
 import { useState } from "react";
-import { getToHex } from "./LetCheck";
+import { getToHex, maptemp } from "./LetCheck";
 const ToolHexCells = () => {
-  console.log(nHex);
-  const totalHex = 1144;
+  const totalHex = 936;
   const objHex = {
     id: "",
     main_class: "hexagon",
@@ -29,9 +28,13 @@ const ToolHexCells = () => {
       hexagontent: {
         ...objHex.hexagontent,
         id_content: "cid" + index,
+        content: maptemp.get(index),
       },
     });
+    console.log(maptemp.get(70));
   }
+  console.log(maptemp);
+  // console.log(arrObjHex);
   const [idStartHex, setidStartHex] = useState("");
   const [numberHex, setnumberHex] = useState("");
   const handleSubmitCol = (event) => {
@@ -150,9 +153,9 @@ const ToolHexCells = () => {
       <table>
         <thead>
           <tr>
-            <th>Gen Col hex</th>
-            <th>Gen Col hex from Left to Right</th>
-            <th>Gen Col hex from Right to Left</th>
+            <th>Top vo Bottom</th>
+            <th>Left to Right</th>
+            <th>Right to Left</th>
           </tr>
         </thead>
         <tbody>
@@ -262,12 +265,21 @@ const ToolHexCells = () => {
         <div className="ibws-fix">
           {arrObjHex.map((item) => {
             return (
-              <div key={item.id} className={item.main_class} id={item.id}>
+              <div
+                key={item.id}
+                className={
+                  item.main_class +
+                  `${arrDefaultNode.includes(item.id) ? " blue_node" : ""}` +
+                  `${item.id === "id453" ? " black_node" : ""}`
+                }
+                id={item.id}
+              >
                 <div
                   className={item.hexagontent.class_content}
                   id={item.hexagontent.id_content}
                 >
-                  {item.id.split("id", 3)}
+                  {/* {item.id.split("id", 3)} */}
+                  {item.hexagontent.content}
                 </div>
               </div>
             );

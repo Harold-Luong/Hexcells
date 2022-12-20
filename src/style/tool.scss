@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Merriweather);
-
 *,
 *::before,
 *::after {
@@ -12,9 +11,8 @@ html {
   font-size: 62.5%;
 }
 body {
-  color: hsl(0, 0%, 10%);
+  color: hsl(0, 0%, 0%);
   background-color: hsla(0, 0%, 81%, 0.767);
-
   max-width: auto;
   margin: 0 auto;
   padding: 20px;
@@ -25,7 +23,7 @@ body {
 .hexagon {
   position: relative;
   display: inline-block;
-  // visibility: hidden;
+  visibility: hidden;
   margin: 1px 7px;
   background-color: hsl(45, 6%, 13%);
   text-align: center;
@@ -70,8 +68,8 @@ body {
     font-size: 0;
     .hexagontent {
       pointer-events: none;
-      //visibility: hidden;
-      color: hsl(0, 0%, 95%);
+      visibility: visible;
+      // color: hsl(0, 3%, 6%);
       position: absolute;
       top: 50%;
       left: 50%;
@@ -94,15 +92,17 @@ body {
       }
     }
     .black_node {
-      background-color: black;
+      color: white !important;
+      background-color: black !important;
       .hexagontent {
-        visibility: visible;
+        visibility: hidden;
       }
     }
     .blue_node {
-      background-color: rgb(0, 116, 170);
+      color: white !important;
+      background-color: rgb(0, 116, 170) !important;
       .hexagontent {
-        visibility: visible;
+        visibility: hidden;
       }
     }
   }
@@ -145,4 +145,21 @@ body {
 }
 input {
   margin-bottom: 15px;
+}
+
+.df-num-left {
+  visibility: visible;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-60deg);
+}
+.df-num-right {
+  visibility: visible;
+  transform: rotate(-60deg);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-60deg);
 }
