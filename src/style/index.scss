@@ -13,7 +13,7 @@ html {
 }
 body {
   color: hsl(0, 0%, 10%);
-  background-color: hsla(0, 0%, 81%, 0.767);
+  background-color: hsl(0, 2%, 49%);
 
   max-width: auto;
   margin: 0 auto;
@@ -40,7 +40,7 @@ body {
 .hexagon {
   position: relative;
   display: inline-block;
-  //visibility: hidden;
+  // visibility: visible;
   margin: 1px 7px;
   background-color: hsl(46, 100%, 46%);
   text-align: center;
@@ -71,12 +71,11 @@ body {
   top: 22.5px;
 }
 .hexagon:hover {
-  background-color: rgb(110, 110, 110);
+  background-color: rgb(214, 208, 208);
   cursor: pointer;
   z-index: 105;
 }
 .hexagon:active {
-  //background-color: rgb(255, 0, 0);
   z-index: 110;
 }
 .honeycomb {
@@ -87,7 +86,7 @@ body {
     font-size: 0;
     .hexagontent {
       pointer-events: none;
-      //visibility: hidden;
+      visibility: hidden;
       color: hsl(0, 0%, 95%);
       position: absolute;
       top: 50%;
@@ -98,7 +97,7 @@ body {
       z-index: 110;
     }
     .hexanone {
-      visibility: hidden;
+      visibility: hidden !important;
       .hexagontent {
         visibility: visible;
         color: black;
@@ -106,7 +105,6 @@ body {
         top: 60%;
         font-weight: 1000;
         left: 50%;
-
         transform: translate(-50%, 10%);
         width: 140%;
         font-size: 1.4rem;
@@ -115,17 +113,17 @@ body {
       }
     }
     .black_node {
-      pointer-events: none;
-      background-color: black;
+      background-color: black !important;
       .hexagontent {
-        visibility: visible;
+        visibility: visible !important;
+        color: white !important;
       }
     }
     .blue_node {
-      pointer-events: none;
-      background-color: rgb(0, 116, 170);
+      background-color: rgb(0, 116, 170) !important;
       .hexagontent {
-        visibility: visible;
+        visibility: visible !important;
+        color: white !important;
       }
     }
   }
@@ -162,19 +160,22 @@ body {
     -webkit-transform: rotate(0) scale(1) skew(1deg);
   }
 }
+.df-num {
+  position: absolute;
+  transform: translate(-50%, 0%) !important;
+}
 .df-num-left {
   position: absolute;
-
   transform: translate(-10%, -50%) rotate(-60deg) !important;
 }
 .df-num-right {
   position: absolute;
-  transform: translate(-90%, -50%) rotate(60deg) !important;
+  transform: translate(-80%, -40%) rotate(60deg) !important;
 }
 
 // table
 table {
-  width: 80%;
+  width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -188,4 +189,10 @@ tr:nth-child(even) {
 }
 .inputClass {
   text-align: center;
+}
+// form
+.inputHex {
+  width: 150px;
+  margin-inline: 5px;
+  margin-bottom: 5px;
 }

@@ -3,6 +3,7 @@ const hex_none = [
   192, 204, 408, 420, 522, 90, 235, 236, 273, 309, 345, 381, 380, 415, 413, 376,
   375, 339, 303, 267, 232, 233,
 ];
+// đưa vào map
 const map_hex_none = new Map();
 for (let index = 0; index < hex_none.length; index++) {
   map_hex_none.set(hex_none[index], index);
@@ -196,7 +197,6 @@ const mapALL = () => {
   return mapArr;
 };
 //so o hex dc qui dinh
-
 const default_number_right = new Map();
 default_number_right.set(64, 11);
 default_number_right.set(101, 11);
@@ -205,7 +205,6 @@ default_number_right.set(140, 8);
 default_number_right.set(286, 4);
 default_number_right.set(466, 3);
 default_number_right.set(192, 7);
-
 //left
 const default_number_left = new Map();
 default_number_left.set(204, "{2}");
@@ -217,7 +216,6 @@ default_number_left.set(112, 10);
 default_number_left.set(113, 6);
 default_number_left.set(79, 12);
 default_number_left.set(44, 9);
-
 // top
 const default_number_top = new Map();
 default_number_top.set(147, 5);
@@ -231,7 +229,45 @@ default_number_top.set(23, 9);
 default_number_top.set(26, 3);
 default_number_top.set(177, 9);
 
+//blue
+const kq = () => {
+  let kq = [183, 255, 363, 399, 507]; //1
+  kq.push(148, 400, 508); //2
+  kq.push(221, 329, 473, 581); //3
+  kq.push(150, 402); //4
+  kq.push(295, 439, 547); //5
+  kq.push(80, 152, 368);
+  kq.push(117, 225, 261, 441, 513);
+  kq.push(46, 82, 118, 190, 226, 298, 514, 550);
+  kq.push(83, 119, 155, 227, 299, 407);
+  kq.push(48, 84, 120, 156, 480);
+  kq.push(49, 85, 121, 157, 229, 301, 337, 373, 445, 589);
+  kq.push(50, 86, 302, 338, 554);
+  kq.push(87, 123, 447, 519);
+  kq.push(52, 88, 160, 268, 412, 556);
+  kq.push(305, 377, 485, 557);
+  kq.push(234, 270, 450);
+  kq.push(343, 379, 523, 595);
+  kq.push(92, 200, 272);
+  kq.push(93, 453, 489, 561, 597);
+  kq.push(58, 94, 202, 490);
+  kq.push(59, 95, 131, 167, 203, 383, 455, 527, 563);
+  kq.push(240, 276, 348, 384, 492);
+  kq.push(169, 313, 349, 385, 592, 601, 529);
+  kq.push(98, 206, 422);
+  kq.push(99, 135, 243, 351, 567, 603);
+  kq.push(208, 280, 352, 460, 532);
+  kq.push(317, 353);
+  kq.push(138, 282, 354, 426);
+  kq.push(211, 319, 535);
+  kq.push(176, 212, 392, 464);
+  kq.push(213, 249, 321, 357, 429, 465, 501, 537, 573);
+
+  return kq;
+};
+
 export {
+  kq,
   blue_node_default,
   black_node_default,
   hex_none,

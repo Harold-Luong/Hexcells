@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  kq,
   blue_node_default,
   black_node_default,
   objHex,
@@ -20,7 +21,6 @@ const Index = () => {
       arrObjHex.push({
         ...objHex,
         id: index,
-
         class_hex_none: "hexanone",
         hexagontent: {
           ...objHex.hexagontent,
@@ -31,7 +31,7 @@ const Index = () => {
       arrObjHex.push({
         ...objHex,
         id: index,
-        style_color: "rgb(0, 116, 170)",
+        style_color: " hsl(46, 100%, 46%)",
         hexagontent: {
           ...objHex.hexagontent,
           id_content: "c" + index,
@@ -64,26 +64,29 @@ const Index = () => {
     switch (event.nativeEvent.button) {
       //Left click (synthetic event)
       case 0:
-        if (stateObjHex[positionCurrentId].status_check_click === false) {
-          if (objHexagontent.content === undefined) {
-            setPoint({ ...point, remaining: --point.remaining });
-          } else {
-            setPoint({ ...point, mistakes: ++point.mistakes });
-            handleClickHexagon(currentId);
-          }
-          handleSetStateObjhex("rgb(0, 116, 170", positionCurrentId);
+        // /stateObjHex[positionCurrentId].status_check_click === false
+        let checkID = kq().includes(parseInt(currentId));
+        setidStartHexStart(currentId);
+        console.log(currentId, checkID);
+        if (objHexagontent.content === undefined || checkID) {
+          setPoint({ ...point, remaining: --point.remaining });
+        } else {
+          setPoint({ ...point, mistakes: ++point.mistakes });
+          handleClickHexagon(currentId);
         }
+        handleSetStateObjhex("rgb(0, 116, 170", positionCurrentId);
 
         break;
       //Right click (synthetic event)
       case 2:
-        if (stateObjHex[positionCurrentId].status_check_click === false) {
-          if (objHexagontent.content === undefined) {
-            setPoint({ ...point, mistakes: ++point.mistakes });
-            handleClickHexagon(currentId);
-          }
-          handleSetStateObjhex("black", positionCurrentId);
+        //stateObjHex[positionCurrentId].status_check_click === false
+
+        if (objHexagontent.content === undefined) {
+          setPoint({ ...point, mistakes: ++point.mistakes });
+          handleClickHexagon(currentId);
         }
+        handleSetStateObjhex("black", positionCurrentId);
+        handleClickHexagon(currentId);
 
         break;
       default:
@@ -96,15 +99,145 @@ const Index = () => {
     let element = document.getElementById(id);
     element.classList.add("buzz");
   };
+
   //check box
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isChangeColor, setisChangeColor] = useState(false);
   const handleChange = (event) => {
+    const inner = document.querySelectorAll(".hexagon");
+    const ele = document.querySelectorAll(".hexagon > .hexagontent ");
     if (event.target.checked) {
-      console.log("✅ Checkbox is checked");
-    } else {
-      console.log("⛔️ Checkbox is NOT checked");
+      setPoint({ mistakes: 0, remaining: 147 });
+      //hex
+      inner.forEach((element) => {
+        element.style.backgroundColor = "rgb(0, 116, 170)";
+        const id = parseInt(element.id);
+        if (!kq().includes(id)) {
+          element.classList.add("black_node");
+        }
+      });
+      //content
+      ele.forEach((element) => {
+        element.style.visibility = "visible";
+      });
     }
-    setIsSubscribed((current) => !current);
+    //xy ly blue
+    else {
+      setPoint({ mistakes: 0, remaining: 147 });
+      inner.forEach((element) => {
+        element.style.backgroundColor = "unset";
+        if (element.id !== "318") {
+          element.classList.remove("black_node");
+        }
+        if (!blue_node_default.has(parseInt(element.id))) {
+          element.classList.remove("blue_node");
+        }
+        element.style = "";
+        if (element.style.backgroundColor !== "") {
+          element.style.backgroundColor = "hsl(46, 100%, 46%)";
+        }
+      });
+      ele.forEach((element) => {
+        element.style.visibility = "hidden";
+        if (element.classList.length === 2) {
+          element.style.visibility = "visible";
+        }
+      });
+    }
+    setisChangeColor((current) => !current);
+  };
+  //form submit
+  const [idStart, setidStartHexStart] = useState("");
+  const [top, setidStartHexTop] = useState("");
+  const [left, setidStartHexLeft] = useState("");
+  const handleSubmitCol = (event) => {
+    event.preventDefault();
+    genTop(idStart, top);
+    setidStartHexTop("");
+    event.target.reset();
+  };
+  const handleSubmitColLeft = (event) => {
+    event.preventDefault();
+    genHexLeftToRightByNumberId(idStart, left);
+    setidStartHexLeft("");
+
+    event.target.reset();
+  };
+  //gen line top
+  const genTop = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
+    let strId = idNum;
+    let count = 0;
+    while (count < parseInt(numberhex)) {
+      const elem = document.getElementById(strId);
+      if (elem === null) break;
+      elem.style.backgroundColor = "rgb(0, 116, 170)";
+      elem.style.visibility = "visible";
+      strId = idNum;
+      count++;
+      //------------
+      const inner = document.querySelectorAll(".hexagon");
+      inner.forEach((element) => {
+        const id = parseInt(element.id);
+        if (strId == element.id) {
+          element.style.backgroundColor = "rgb(0, 116, 170)";
+          if (!kq().includes(id)) {
+            element.classList.add("black_node");
+          } else {
+            element.classList.add("blue_node");
+          }
+        }
+      });
+      idNum += 36;
+    }
+  };
+  //gen line left
+  const genHexLeftToRightByNumberId = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
+    if (idNum % 2 !== 0) {
+      for (let index = 0; index < parseInt(numberhex); index++) {
+        let ele = document.getElementById(idNum);
+        console.log(ele);
+        if (ele === null) break;
+        if (idNum % 2 !== 0) {
+          if (kq().includes(idNum)) {
+            ele.classList.add("blue_node");
+          } else {
+            ele.classList.add("black_node");
+          }
+          idNum += 1;
+        } else {
+          ele = document.getElementById(idNum);
+          if (kq().includes(idNum)) {
+            ele.classList.add("blue_node");
+          } else {
+            ele.classList.add("black_node");
+          }
+          idNum += 37;
+        }
+      }
+    } else {
+      for (let index = 0; index < parseInt(numberhex); index++) {
+        let ele = document.getElementById(idNum);
+        console.log(ele);
+        if (ele === null) break;
+        if (idNum % 2 !== 0) {
+          if (kq().includes(idNum)) {
+            ele.classList.add("blue_node");
+          } else {
+            ele.classList.add("black_node");
+          }
+          idNum += 1;
+        } else {
+          ele = document.getElementById(idNum);
+          if (kq().includes(idNum)) {
+            ele.classList.add("blue_node");
+          } else {
+            ele.classList.add("black_node");
+          }
+          idNum += 37;
+        }
+      }
+    }
   };
 
   return (
@@ -123,48 +256,46 @@ const Index = () => {
       </div>
       {/* --------------- */}
       <div className="honeycomb">
-        <table className="ibws-fix">
-          <thead>
-            <tr>
-              <th>input value</th>
-            </tr>
-          </thead>
+        <table>
           <tbody>
             <tr>
               <td>
-                <form>
+                Top to bottom
+                <form onSubmit={handleSubmitCol}>
                   <input
+                    disabled
+                    className="inputHex"
                     type="number"
-                    id="idStartHex"
-                    name="idStartHex"
-                    placeholder=" number hex top"
-                    // value={idStartHex}
-                    //  onChange={(event) => setidStartHex(event.target.value)}
+                    id="left"
+                    name="left"
+                    placeholder="id hex onclick"
+                    value={idStart}
+                    onChange={(event) => setidStartHexStart(event.target.value)}
                   />{" "}
                   <input
+                    className="inputHex"
                     type="number"
-                    id="idStartHex"
-                    name="idStartHex"
-                    placeholder=" number hex left"
-                    // value={idStartHex}
-                    //  onChange={(event) => setidStartHex(event.target.value)}
+                    id="top"
+                    name="top"
+                    placeholder="number hex open"
+                    value={top}
+                    onChange={(event) => setidStartHexTop(event.target.value)}
                   />{" "}
+                  <button type="submit">Submit</button>
+                </form>
+              </td>
+              <td>
+                Left to bottom
+                <form onSubmit={handleSubmitColLeft}>
                   <input
+                    className="inputHex"
                     type="number"
-                    id="idStartHex"
-                    name="idStartHex"
-                    placeholder="value number right"
-                    // value={idStartHex}
-                    //  onChange={(event) => setidStartHex(event.target.value)}
-                  />
-                  <br />
-                  <br />
-                  <input
-                    type="hidden"
-                    name="position"
-                    id="position"
-                    value="left"
-                  />
+                    id="left"
+                    name="left"
+                    placeholder="number hex open"
+                    value={left}
+                    onChange={(event) => setidStartHexLeft(event.target.value)}
+                  />{" "}
                   <button type="submit">Submit</button>
                 </form>
               </td>
@@ -173,13 +304,13 @@ const Index = () => {
         </table>
         <hr />
         <div>
-          <p>show yellow</p>
+          <p>Show result</p>
 
           <label className="switch">
             <input
               type="checkbox"
               id="togBtn"
-              value={isSubscribed}
+              value={isChangeColor}
               onChange={handleChange}
               name="togBtn"
             />
@@ -208,13 +339,17 @@ const Index = () => {
                 id={item.id}
               >
                 <div
+                  id={item.hexagontent.id_content}
                   style={{ visibility: `${item.hexagontent.style_visibility}` }}
                   className={
                     item.hexagontent.class_content +
                     `${
                       default_number_right.has(item.id) ? " df-num-right" : ""
                     }` +
-                    `${default_number_left.has(item.id) ? " df-num-left" : ""}`
+                    `${
+                      default_number_left.has(item.id) ? " df-num-left" : ""
+                    }` +
+                    `${default_number_top.has(item.id) ? " df-num" : ""}`
                   }
                 >
                   {item.hexagontent.content}
@@ -227,8 +362,6 @@ const Index = () => {
           })}
         </div>
       </div>
-      <br></br>
-      <br></br>
     </div>
   );
 };

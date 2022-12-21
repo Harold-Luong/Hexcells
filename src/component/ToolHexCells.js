@@ -278,7 +278,6 @@ const ToolHexCells = () => {
                   className={item.hexagontent.class_content}
                   id={item.hexagontent.id_content}
                 >
-                  {/* {item.id.split("id", 3)} */}
                   {item.hexagontent.content}
                 </div>
               </div>
