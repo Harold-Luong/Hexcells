@@ -1,0 +1,177 @@
+$yellow_color: rgb(235, 173, 39);
+$blue_color: rgb(0, 116, 170);
+$black_color: black;
+$white_corlor: white;
+$background_color: hsl(0, 5%, 64%);
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: Merriweather, Georgia, serif;
+  font-size: 62.5%;
+  body {
+    background-color: $background_color;
+    max-width: auto;
+    margin: 0 auto;
+    padding: 5px 20px;
+    bottom: 0;
+    top: 0;
+    .honeycomb {
+      width: 1420px;
+      margin: 0 auto;
+      text-align: center;
+      .ibws-fix {
+        font-size: 0;
+        margin-bottom: 50px;
+        .hexagon {
+          position: relative;
+          display: inline-block;
+          visibility: visible;
+          margin: 1px 7px;
+          background-color: $yellow_color;
+          text-align: center;
+          width: 25px;
+          height: 43.3px;
+          border-radius: 20%/5%;
+          &::before {
+            width: 25px;
+            height: 43.3px;
+            border-radius: 20%/5%;
+            background-color: inherit;
+            content: "";
+            position: absolute;
+            left: 0;
+            transform: rotate(-60deg);
+          }
+          &::after {
+            width: 25px;
+            height: 43.3px;
+            border-radius: 20%/5%;
+            background-color: inherit;
+            content: "";
+            position: absolute;
+            left: 0;
+            transform: rotate(60deg);
+          }
+          &:nth-child(even) {
+            top: 22.5px;
+          }
+          &:hover {
+            background-color: rgb(85, 83, 83);
+            cursor: pointer;
+            z-index: 105;
+          }
+          &:active {
+            z-index: 110;
+          }
+          .hexagontent {
+            pointer-events: none;
+            color: $white_corlor;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.4rem;
+            line-height: 1.2;
+            z-index: 110;
+          }
+          .hexanone {
+            visibility: hidden !important;
+            .hexagontent {
+              visibility: visible;
+              color: $black_color;
+              position: absolute;
+              top: 60%;
+              font-weight: 1000;
+              left: 50%;
+              transform: translate(-50%, 10%);
+              width: 140%;
+              font-size: 1.4rem;
+              line-height: 1.2;
+              z-index: 110;
+            }
+          }
+        }
+        .hexanone {
+          visibility: hidden !important;
+          .hexagontent {
+            visibility: visible;
+            color: $black_color;
+            position: absolute;
+            top: 60%;
+            font-weight: 1000;
+            left: 50%;
+            transform: translate(-50%, 10%);
+            width: 140%;
+            font-size: 1.4rem;
+            line-height: 1.2;
+            z-index: 110;
+          }
+        }
+        .black_node {
+          background-color: $black_color !important;
+          .hexagontent {
+            visibility: visible !important;
+            color: $white_corlor !important;
+          }
+        }
+        .blue_node {
+          background-color: $blue_color !important;
+          .hexagontent {
+            visibility: visible !important;
+            color: $white_corlor !important;
+          }
+        }
+        .buzz {
+          animation-name: buzz-pro;
+          animation-duration: 1.25s;
+        }
+        @keyframes buzz-pro {
+          0% {
+            -webkit-transform: rotate(0) scale(1) skew(1deg);
+          }
+          10% {
+            -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+          }
+          20% {
+            -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+          }
+          30% {
+            -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
+          }
+          40% {
+            -webkit-transform: rotate(25deg) scale(1) skew(1deg);
+          }
+          50% {
+            -webkit-transform: rotate(0) scale(1) skew(1deg);
+          }
+          100% {
+            -webkit-transform: rotate(0) scale(1) skew(1deg);
+          }
+        }
+      }
+    }
+  }
+}
+
+// effect buzz
+
+.df-num {
+  pointer-events: all !important;
+  position: absolute;
+  transform: translate(-50%, 0%) !important;
+}
+.df-num-left {
+  pointer-events: all !important;
+  position: absolute;
+  transform: translate(-10%, -50%) rotate(-60deg) !important;
+}
+.df-num-right {
+  pointer-events: all !important;
+  position: absolute;
+  transform: translate(-80%, -40%) rotate(60deg) !important;
+}

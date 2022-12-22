@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  kq,
+  result_blue,
   blue_node_default,
   black_node_default,
   objHex,
@@ -13,9 +13,11 @@ import {
 import { useState } from "react";
 import "../style/index.scss";
 import "../style/togglebutton.scss";
-const Index = () => {
+
+const HexIndex = () => {
   let arrObjHex = [];
   //add arrObjHex
+
   for (let index = 1; index < 613; index++) {
     if (!mapALL().has(index) || map_hex_none.has(index)) {
       arrObjHex.push({
@@ -31,7 +33,7 @@ const Index = () => {
       arrObjHex.push({
         ...objHex,
         id: index,
-        style_color: " hsl(46, 100%, 46%)",
+        style_color: "hsl(46, 100%, 46%)",
         hexagontent: {
           ...objHex.hexagontent,
           id_content: "c" + index,
@@ -49,10 +51,10 @@ const Index = () => {
   const handleSetStateObjhex = (color, positionCurrentId) => {
     setStateObjHex(
       [...stateObjHex],
-      (stateObjHex.at(positionCurrentId).style_color = color),
-      (stateObjHex.at(positionCurrentId).status_check_click = true),
-      (stateObjHex.at(positionCurrentId).hexagontent.style_visibility =
-        "visible")
+      (stateObjHex.at(positionCurrentId).style_color = color)
+      // (stateObjHex.at(positionCurrentId).status_check_click = true)
+      // (stateObjHex.at(positionCurrentId).hexagontent.style_visibility =
+      //   "visible")
     );
   };
   const handleClick = (event) => {
@@ -60,33 +62,39 @@ const Index = () => {
     event.preventDefault();
     let currentId = event.nativeEvent.srcElement.id;
     let positionCurrentId = currentId - 1;
+    if (stateObjHex[positionCurrentId] === undefined) return;
     const objHexagontent = stateObjHex[positionCurrentId].hexagontent;
+
+    let checkID = result_blue().includes(parseInt(currentId));
+
     switch (event.nativeEvent.button) {
       //Left click (synthetic event)
       case 0:
-        // /stateObjHex[positionCurrentId].status_check_click === false
-        let checkID = kq().includes(parseInt(currentId));
-        setidStartHexStart(currentId);
-        console.log(currentId, checkID);
-        if (objHexagontent.content === undefined || checkID) {
-          setPoint({ ...point, remaining: --point.remaining });
-        } else {
-          setPoint({ ...point, mistakes: ++point.mistakes });
-          handleClickHexagon(currentId);
-        }
-        handleSetStateObjhex("rgb(0, 116, 170", positionCurrentId);
+        if (stateObjHex[positionCurrentId].status_check_click === false) {
+          setidStartHexStart(currentId);
 
+          if (objHexagontent.content === undefined || checkID) {
+            setPoint({ ...point, remaining: --point.remaining });
+            handleSetStateObjhex("rgb(0, 116, 170", positionCurrentId);
+          } else {
+            setPoint({ ...point, mistakes: ++point.mistakes });
+            handleClickHexagon(currentId);
+            handleSetStateObjhex("hsl(46, 100%, 46%)", positionCurrentId);
+          }
+        }
+        //  handleSetStateObjhex("rgb(0, 116, 170", positionCurrentId);
         break;
       //Right click (synthetic event)
       case 2:
-        //stateObjHex[positionCurrentId].status_check_click === false
-
-        if (objHexagontent.content === undefined) {
-          setPoint({ ...point, mistakes: ++point.mistakes });
-          handleClickHexagon(currentId);
+        if (stateObjHex[positionCurrentId].status_check_click === false) {
+          if (objHexagontent.content === undefined || checkID === true) {
+            setPoint({ ...point, mistakes: ++point.mistakes });
+            handleSetStateObjhex("hsl(46, 100%, 46%)", positionCurrentId);
+            handleClickHexagon(currentId);
+          } else {
+            handleSetStateObjhex("black", positionCurrentId);
+          }
         }
-        handleSetStateObjhex("black", positionCurrentId);
-        handleClickHexagon(currentId);
 
         break;
       default:
@@ -104,14 +112,15 @@ const Index = () => {
   const [isChangeColor, setisChangeColor] = useState(false);
   const handleChange = (event) => {
     const inner = document.querySelectorAll(".hexagon");
-    const ele = document.querySelectorAll(".hexagon > .hexagontent ");
+    const ele = document.querySelectorAll(".hexagon > .hexagontent");
+    //handle blue hex
     if (event.target.checked) {
       setPoint({ mistakes: 0, remaining: 147 });
       //hex
       inner.forEach((element) => {
-        element.style.backgroundColor = "rgb(0, 116, 170)";
+        element.style.backgroundColor = "rgb(0, 116, 170)"; //blue
         const id = parseInt(element.id);
-        if (!kq().includes(id)) {
+        if (!result_blue().includes(id)) {
           element.classList.add("black_node");
         }
       });
@@ -120,28 +129,9 @@ const Index = () => {
         element.style.visibility = "visible";
       });
     }
-    //xy ly blue
+    //handle yellow hex
     else {
-      setPoint({ mistakes: 0, remaining: 147 });
-      inner.forEach((element) => {
-        element.style.backgroundColor = "unset";
-        if (element.id !== "318") {
-          element.classList.remove("black_node");
-        }
-        if (!blue_node_default.has(parseInt(element.id))) {
-          element.classList.remove("blue_node");
-        }
-        element.style = "";
-        if (element.style.backgroundColor !== "") {
-          element.style.backgroundColor = "hsl(46, 100%, 46%)";
-        }
-      });
-      ele.forEach((element) => {
-        element.style.visibility = "hidden";
-        if (element.classList.length === 2) {
-          element.style.visibility = "visible";
-        }
-      });
+      window.location.reload(false);
     }
     setisChangeColor((current) => !current);
   };
@@ -149,6 +139,8 @@ const Index = () => {
   const [idStart, setidStartHexStart] = useState("");
   const [top, setidStartHexTop] = useState("");
   const [left, setidStartHexLeft] = useState("");
+  const [right, setidStartHexRight] = useState("");
+  const [iputHidden, setIputHidden] = useState("");
   const handleSubmitCol = (event) => {
     event.preventDefault();
     genTop(idStart, top);
@@ -159,7 +151,12 @@ const Index = () => {
     event.preventDefault();
     genHexLeftToRightByNumberId(idStart, left);
     setidStartHexLeft("");
-
+    event.target.reset();
+  };
+  const handleSubmitColRight = (event) => {
+    event.preventDefault();
+    genHexRightToLeftByNumberId(idStart, right);
+    setidStartHexRight("");
     event.target.reset();
   };
   //gen line top
@@ -170,20 +167,25 @@ const Index = () => {
     while (count < parseInt(numberhex)) {
       const elem = document.getElementById(strId);
       if (elem === null) break;
-      elem.style.backgroundColor = "rgb(0, 116, 170)";
+      //elem.style.backgroundColor = "rgb(0, 116, 170)";
       elem.style.visibility = "visible";
       strId = idNum;
-      count++;
+
       //------------
       const inner = document.querySelectorAll(".hexagon");
       inner.forEach((element) => {
         const id = parseInt(element.id);
         if (strId == element.id) {
-          element.style.backgroundColor = "rgb(0, 116, 170)";
-          if (!kq().includes(id)) {
-            element.classList.add("black_node");
-          } else {
+          //  element.style.backgroundColor = "rgb(0, 116, 170)";
+          // if (!result_blue().includes(id)) {
+          //   element.classList.add("black_node");
+          // } else {
+          //   element.classList.add("blue_node");
+          // }
+
+          if (result_blue().includes(id) === true) {
             element.classList.add("blue_node");
+            count++;
           }
         }
       });
@@ -193,50 +195,159 @@ const Index = () => {
   //gen line left
   const genHexLeftToRightByNumberId = (idStartHex, numberhex) => {
     let idNum = parseInt(idStartHex);
-    if (idNum % 2 !== 0) {
-      for (let index = 0; index < parseInt(numberhex); index++) {
+    let count = 0;
+    if (idNum % 2 !== 0 && count < numberhex) {
+      while (count < numberhex) {
         let ele = document.getElementById(idNum);
-        console.log(ele);
         if (ele === null) break;
         if (idNum % 2 !== 0) {
-          if (kq().includes(idNum)) {
+          if (result_blue().includes(idNum)) {
             ele.classList.add("blue_node");
-          } else {
-            ele.classList.add("black_node");
+            count++;
           }
+          // } else {
+          //   ele.classList.add("black_node");
+          // }
           idNum += 1;
         } else {
           ele = document.getElementById(idNum);
-          if (kq().includes(idNum)) {
+          if (result_blue().includes(idNum)) {
             ele.classList.add("blue_node");
-          } else {
-            ele.classList.add("black_node");
+            count++;
           }
+          // } else {
+          //   ele.classList.add("black_node");
+          // }
           idNum += 37;
         }
       }
     } else {
+      console.log(numberhex, count);
+      while (count < numberhex) {
+        console.log(count);
+        let ele = document.getElementById(idNum);
+
+        if (ele === null) break;
+        if (idNum % 2 !== 0) {
+          if (result_blue().includes(idNum)) {
+            ele.classList.add("blue_node");
+            ++count;
+          }
+          // else {
+          //   //ele.classList.add("black_node");
+          // }
+          idNum += 1;
+        } else {
+          ele = document.getElementById(idNum);
+          if (result_blue().includes(idNum)) {
+            ele.classList.add("blue_node");
+            ++count;
+          }
+          // else {
+          //   // ele.classList.add("black_node");
+          // }
+          idNum += 37;
+        }
+      }
       for (let index = 0; index < parseInt(numberhex); index++) {
         let ele = document.getElementById(idNum);
         console.log(ele);
         if (ele === null) break;
         if (idNum % 2 !== 0) {
-          if (kq().includes(idNum)) {
+          if (result_blue().includes(idNum)) {
             ele.classList.add("blue_node");
           } else {
-            ele.classList.add("black_node");
+            //ele.classList.add("black_node");
           }
           idNum += 1;
         } else {
           ele = document.getElementById(idNum);
-          if (kq().includes(idNum)) {
+          if (result_blue().includes(idNum)) {
             ele.classList.add("blue_node");
           } else {
-            ele.classList.add("black_node");
+            // ele.classList.add("black_node");
           }
           idNum += 37;
         }
       }
+    }
+  };
+  //gen line right
+  const genHexRightToLeftByNumberId = (idStartHex, numberhex) => {
+    let idNum = parseInt(idStartHex);
+    let count = 0;
+    if (idNum % 2 !== 0) {
+      while (count < numberhex) {
+        let ele = document.getElementById(idNum);
+        if (ele === null) break;
+        if (idNum % 2 !== 0) {
+          if (result_blue().includes(idNum)) {
+            count++;
+            ele.classList.add("blue_node");
+          }
+          //  else {
+          //   ele.classList.add("black_node");
+          // }
+          idNum -= 1;
+        } else {
+          ele = document.getElementById(idNum);
+          if (result_blue().includes(idNum)) {
+            count++;
+            ele.classList.add("blue_node");
+          }
+          //  else {
+          //   ele.classList.add("black_node");
+          // }
+          idNum += 35;
+        }
+      }
+    } else {
+      while (count < numberhex) {
+        if (count == numberhex) break;
+        let ele = document.getElementById(idNum);
+        console.log(ele);
+        if (ele === null) break;
+        if (idNum % 2 == 0) {
+          if (result_blue().includes(idNum)) {
+            ele.classList.add("blue_node");
+            ++count;
+          }
+          // else {
+          //   ele.classList.add("black_node");
+          // }
+          idNum += 35;
+        } else {
+          ele = document.getElementById(idNum);
+          if (result_blue().includes(idNum)) {
+            ele.classList.add("blue_node");
+            ++count;
+          }
+          //  else {
+          //   ele.classList.add("black_node");
+          // }
+          idNum -= 1;
+        }
+        console.log(count);
+      }
+    }
+  };
+  //click number outside hex
+  const handleClickDefault = (event) => {
+    event.preventDefault();
+    const id = parseInt(event.target.id.slice(1));
+
+    document.getElementById(event.target.id).style.color = "white";
+    if (default_number_top.has(id)) {
+      setidStartHexStart(id);
+      setidStartHexTop(document.getElementById(event.target.id).innerText);
+    }
+    if (default_number_left.has(id)) {
+      setidStartHexStart(id);
+      setidStartHexLeft(document.getElementById(event.target.id).innerText);
+    }
+    if (default_number_right.has(id)) {
+      setidStartHexStart(id);
+      setidStartHexRight(document.getElementById(event.target.id).innerText);
     }
   };
 
@@ -248,11 +359,25 @@ const Index = () => {
           <h2 id="number-remaining">{point.remaining}</h2>
         </div>
         <br />
-        <div className="mistakes" style={{ marginTop: "10px" }}>
+        <div className="mistakes">
           MISTAKES
           <h2 id="number-mistakes">{point.mistakes}</h2>
         </div>
-        <br></br>
+        <br />
+        <button
+          className="reload"
+          onClick={() => window.location.reload(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
+          </svg>
+        </button>
+        <br />
       </div>
       {/* --------------- */}
       <div className="honeycomb">
@@ -263,9 +388,8 @@ const Index = () => {
                 Top to bottom
                 <form onSubmit={handleSubmitCol}>
                   <input
-                    disabled
                     className="inputHex"
-                    type="number"
+                    type="hidden"
                     id="left"
                     name="left"
                     placeholder="id hex onclick"
@@ -281,7 +405,7 @@ const Index = () => {
                     value={top}
                     onChange={(event) => setidStartHexTop(event.target.value)}
                   />{" "}
-                  <button type="submit">Submit</button>
+                  <button type="submit">Show hex blue</button>
                 </form>
               </td>
               <td>
@@ -296,7 +420,22 @@ const Index = () => {
                     value={left}
                     onChange={(event) => setidStartHexLeft(event.target.value)}
                   />{" "}
-                  <button type="submit">Submit</button>
+                  <button type="submit">Show hex blue</button>
+                </form>
+              </td>
+              <td>
+                Right to bottom
+                <form onSubmit={handleSubmitColRight}>
+                  <input
+                    className="inputHex"
+                    type="number"
+                    id="right"
+                    name="right"
+                    placeholder="number hex open"
+                    value={right}
+                    onChange={(event) => setidStartHexRight(event.target.value)}
+                  />{" "}
+                  <button type="submit">Show hex blue</button>
                 </form>
               </td>
             </tr>
@@ -339,6 +478,7 @@ const Index = () => {
                 id={item.id}
               >
                 <div
+                  onClick={handleClickDefault}
                   id={item.hexagontent.id_content}
                   style={{ visibility: `${item.hexagontent.style_visibility}` }}
                   className={
@@ -366,4 +506,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default HexIndex;

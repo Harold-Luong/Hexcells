@@ -230,44 +230,44 @@ default_number_top.set(26, 3);
 default_number_top.set(177, 9);
 
 //blue
-const kq = () => {
-  let kq = [183, 255, 363, 399, 507]; //1
-  kq.push(148, 400, 508); //2
-  kq.push(221, 329, 473, 581); //3
-  kq.push(150, 402); //4
-  kq.push(295, 439, 547); //5
-  kq.push(80, 152, 368);
-  kq.push(117, 225, 261, 441, 513);
-  kq.push(46, 82, 118, 190, 226, 298, 514, 550);
-  kq.push(83, 119, 155, 227, 299, 407);
-  kq.push(48, 84, 120, 156, 480);
-  kq.push(49, 85, 121, 157, 229, 301, 337, 373, 445, 589);
-  kq.push(50, 86, 302, 338, 554);
-  kq.push(87, 123, 447, 519);
-  kq.push(52, 88, 160, 268, 412, 556);
-  kq.push(305, 377, 485, 557);
-  kq.push(234, 270, 450);
-  kq.push(343, 379, 523, 595);
-  kq.push(92, 200, 272);
-  kq.push(93, 453, 489, 561, 597);
-  kq.push(58, 94, 202, 490);
-  kq.push(59, 95, 131, 167, 203, 383, 455, 527, 563);
-  kq.push(240, 276, 348, 384, 492);
-  kq.push(169, 313, 349, 385, 592, 601, 529);
-  kq.push(98, 206, 422);
-  kq.push(99, 135, 243, 351, 567, 603);
-  kq.push(208, 280, 352, 460, 532);
-  kq.push(317, 353);
-  kq.push(138, 282, 354, 426);
-  kq.push(211, 319, 535);
-  kq.push(176, 212, 392, 464);
-  kq.push(213, 249, 321, 357, 429, 465, 501, 537, 573);
+const result_blue = () => {
+  let result_blue = [183, 255, 363, 399, 507]; //1
+  result_blue.push(148, 400, 508); //2
+  result_blue.push(221, 329, 473, 581); //3
+  result_blue.push(150, 402); //4
+  result_blue.push(295, 439, 547); //5
+  result_blue.push(80, 152, 368);
+  result_blue.push(117, 225, 261, 441, 513);
+  result_blue.push(46, 82, 118, 190, 226, 298, 514, 550);
+  result_blue.push(83, 119, 155, 227, 299, 407);
+  result_blue.push(48, 84, 120, 156, 480);
+  result_blue.push(49, 85, 121, 157, 229, 301, 337, 373, 445, 589);
+  result_blue.push(50, 86, 302, 338, 554);
+  result_blue.push(87, 123, 447, 519);
+  result_blue.push(52, 88, 160, 268, 412, 556);
+  result_blue.push(305, 377, 485, 557);
+  result_blue.push(234, 270, 450);
+  result_blue.push(343, 379, 523, 595);
+  result_blue.push(92, 200, 272);
+  result_blue.push(93, 453, 489, 561, 597);
+  result_blue.push(58, 94, 202, 490);
+  result_blue.push(59, 95, 131, 167, 203, 383, 455, 527, 563);
+  result_blue.push(240, 276, 348, 384, 492);
+  result_blue.push(169, 313, 349, 385, 592, 601, 529);
+  result_blue.push(98, 206, 422);
+  result_blue.push(99, 135, 243, 351, 567, 603);
+  result_blue.push(208, 280, 352, 460, 532);
+  result_blue.push(317, 353);
+  result_blue.push(138, 282, 354, 426);
+  result_blue.push(211, 319, 535);
+  result_blue.push(176, 212, 392, 464);
+  result_blue.push(213, 249, 321, 357, 429, 465, 501, 537, 573);
 
-  return kq;
+  return result_blue;
 };
 
 export {
-  kq,
+  result_blue,
   blue_node_default,
   black_node_default,
   hex_none,

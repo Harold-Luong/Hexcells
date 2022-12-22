@@ -17,15 +17,19 @@ body {
 
   max-width: auto;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px 20px;
   bottom: 0;
   top: 0;
 }
 .point {
   width: auto;
   text-align: right;
+  position: fixed;
+  top: 5%;
+  right: 3%;
   .remaining,
   .mistakes {
+    margin-top: 15px;
     display: inline-block;
     padding: 5px;
     height: auto;
@@ -34,6 +38,21 @@ body {
     text-align: center;
     font-size: 15px;
     align-items: center;
+  }
+  .reload {
+    cursor: pointer;
+    margin-top: 15px;
+    display: inline-block;
+    padding: 5px;
+    height: auto;
+    background-color: rgb(131, 127, 126);
+    width: 110px;
+    text-align: center;
+    font-size: 15px;
+    align-items: center;
+  }
+  .reload:hover {
+    background-color: rgb(13, 147, 224);
   }
 }
 
@@ -82,8 +101,10 @@ body {
   width: 1420px;
   margin: 0 auto;
   text-align: center;
+
   .ibws-fix {
     font-size: 0;
+    margin-bottom: 50px;
     .hexagontent {
       pointer-events: none;
       visibility: hidden;
@@ -128,6 +149,7 @@ body {
     }
   }
 }
+
 // effect buzz
 .buzz {
   animation-name: buzz-pro;
@@ -136,19 +158,15 @@ body {
 @keyframes buzz-pro {
   0% {
     -webkit-transform: rotate(0) scale(1) skew(1deg);
-    background-color: rgb(192, 0, 0);
   }
   10% {
     -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
-    background-color: rgb(192, 0, 0);
   }
   20% {
     -webkit-transform: rotate(25deg) scale(1) skew(1deg);
-    background-color: rgb(192, 0, 0);
   }
   30% {
     -webkit-transform: rotate(-25deg) scale(1) skew(1deg);
-    background-color: rgb(192, 0, 0);
   }
   40% {
     -webkit-transform: rotate(25deg) scale(1) skew(1deg);
@@ -161,14 +179,17 @@ body {
   }
 }
 .df-num {
+  pointer-events: all !important;
   position: absolute;
   transform: translate(-50%, 0%) !important;
 }
 .df-num-left {
+  pointer-events: all !important;
   position: absolute;
   transform: translate(-10%, -50%) rotate(-60deg) !important;
 }
 .df-num-right {
+  pointer-events: all !important;
   position: absolute;
   transform: translate(-80%, -40%) rotate(60deg) !important;
 }
@@ -195,4 +216,13 @@ tr:nth-child(even) {
   width: 150px;
   margin-inline: 5px;
   margin-bottom: 5px;
+}
+ul {
+  line-height: 22px;
+  font-size: 12px;
+  text-align: left;
+  color: white;
+  li {
+    list-style-type: none;
+  }
 }
