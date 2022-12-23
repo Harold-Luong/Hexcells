@@ -3,6 +3,7 @@ $blue_color: rgb(0, 116, 170);
 $black_color: black;
 $white_corlor: white;
 $background_color: hsl(0, 5%, 64%);
+$background_color_hover: rgb(85, 83, 83);
 *,
 *::before,
 *::after {
@@ -61,7 +62,7 @@ html {
             top: 22.5px;
           }
           &:hover {
-            background-color: rgb(85, 83, 83);
+            background-color: $background_color_hover;
             cursor: pointer;
             z-index: 105;
           }
@@ -79,27 +80,11 @@ html {
             line-height: 1.2;
             z-index: 110;
           }
-          .hexanone {
-            visibility: hidden !important;
-            .hexagontent {
-              visibility: visible;
-              color: $black_color;
-              position: absolute;
-              top: 60%;
-              font-weight: 1000;
-              left: 50%;
-              transform: translate(-50%, 10%);
-              width: 140%;
-              font-size: 1.4rem;
-              line-height: 1.2;
-              z-index: 110;
-            }
-          }
         }
         .hexanone {
           visibility: hidden !important;
           .hexagontent {
-            visibility: visible;
+            pointer-events: none !important;
             color: $black_color;
             position: absolute;
             top: 60%;
@@ -128,7 +113,7 @@ html {
         }
         .buzz {
           animation-name: buzz-pro;
-          animation-duration: 1.25s;
+          animation-duration: 0.5s;
         }
         @keyframes buzz-pro {
           0% {
@@ -159,7 +144,6 @@ html {
 }
 
 // effect buzz
-
 .df-num {
   pointer-events: all !important;
   position: absolute;
@@ -174,4 +158,10 @@ html {
   pointer-events: all !important;
   position: absolute;
   transform: translate(-80%, -40%) rotate(60deg) !important;
+}
+.visble_v_class {
+  visibility: visible !important;
+}
+.hidden_v_class {
+  visibility: hidden !important;
 }

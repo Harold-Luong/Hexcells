@@ -262,7 +262,6 @@ const result_blue = () => {
   result_blue.push(211, 319, 535);
   result_blue.push(176, 212, 392, 464);
   result_blue.push(213, 249, 321, 357, 429, 465, 501, 537, 573);
-
   return result_blue;
 };
 
