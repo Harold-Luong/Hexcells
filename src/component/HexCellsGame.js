@@ -8,12 +8,23 @@ import {
 } from "../data";
 const HexCellsGame = () => {
   const arr_blue = arr_result_blue();
-  // save localStorage
-  window.localStorage.setItem(
-    "hexcells",
-    JSON.stringify(renderObjectHexcells())
-  );
-  const [hexCells, setHexCells] = useState(renderObjectHexcells());
+  const arrHexCellFromLocal = window.localStorage.getItem("hexcells");
+
+  /**
+   * check localStorage
+   * if null, set local
+   */
+  if (arrHexCellFromLocal === null) {
+    window.localStorage.setItem(
+      "hexcells",
+      JSON.stringify(renderObjectHexcells())
+    );
+  }
+
+  const [hexCells, setHexCells] = useState(JSON.parse(arrHexCellFromLocal));
+
+  // console.log(hexCells);
+
   /**
    * load data save
    */
