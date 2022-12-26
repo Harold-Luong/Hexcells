@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useState } from "react";
 import "../style/hexcells-style.scss";
 import {
@@ -21,9 +21,23 @@ const HexCellsGame = () => {
     );
   }
 
-  const [hexCells, setHexCells] = useState(JSON.parse(arrHexCellFromLocal));
+  const [hexCells, setHexCells] = useState(0);
+  // const [hexCells, setHexCells] = useState(renderObjectHexcells());
 
-  // console.log(hexCells);
+  //// prehex
+  const ref = useRef();
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = hexCells;
+  }, [hexCells]); // Only re-run if value changes
+  //
+
+  /**
+   * back hex
+   */
+  const handleback = () => {
+    setHexCells((hexCells) => hexCells + 1);
+  };
 
   /**
    * load data save
@@ -63,9 +77,8 @@ const HexCellsGame = () => {
    * right click and left click
    * @param {*} event
    */
-  const handleClick = (event) => {
+  let handleClick = (event) => {
     event.preventDefault();
-    //id hex on click
     const idHex = event.target.id;
     //position ID in arr = idHex -1 (because idHex start from 1)
     const positionIdInArrHexCells = handleFortmatId(idHex) - 1;
@@ -74,10 +87,11 @@ const HexCellsGame = () => {
     switch (event.nativeEvent.button) {
       //Left click (synthetic event)
       case 0:
-        // positionIdInArrHexCells + 1 becase arr_blue has id start from 1
+        // positionIdInArrHexCells + 1 because arr_blue has id start from 1
         if (arr_blue.includes(positionIdInArrHexCells + 1)) {
           objHexOnClick.blue_class = "blue_node";
           objHexOnClick.status_check_click = true;
+          console.log(objHexOnClick);
           setHexCells(
             [...hexCells],
             (hexCells[positionIdInArrHexCells] = objHexOnClick)
@@ -92,10 +106,8 @@ const HexCellsGame = () => {
 
           setTimeout(() => {
             objHexOnClick.buzz_class = null;
-
             setHexCells(
               [...hexCells],
-
               (hexCells[positionIdInArrHexCells] = objHexOnClick)
             );
           }, 500);
@@ -133,8 +145,10 @@ const HexCellsGame = () => {
         break;
     }
   };
+
   return (
     <div>
+      {console.log("render")}
       <div className="point">
         <div className="remaining">
           REMAINING
@@ -160,11 +174,15 @@ const HexCellsGame = () => {
         <button onClick={handleSave}>Save</button>
         <br />
         <button onClick={handleClickPlayAgain}>Play again</button>
+        <br />
+        <button id="back" onClick={handleback}>
+          Back{hexCells} + {ref.current}
+        </button>
       </div>
       {/* hexcells */}
       <div className="honeycomb">
         <div className="ibws-fix">
-          {hexCells.map((item, key) => {
+          {/* {hexCells.map((item, key) => {
             return (
               <div
                 onClick={handleClick}
@@ -195,11 +213,17 @@ const HexCellsGame = () => {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>
   );
 };
+/**
+ *  The ref object is a generic container whose current property is mutable ...
+    ... and can hold any value, similar to an instance property on a class
+ * @param {*} value 
+ * @returns  Return previous value (happens before update in useEffect above)
+ */
 
 export default HexCellsGame;
