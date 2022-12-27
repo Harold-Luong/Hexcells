@@ -2,7 +2,7 @@ $yellow_color: rgb(235, 173, 39);
 $blue_color: rgb(0, 116, 170);
 $black_color: black;
 $white_corlor: white;
-$background_color: hsl(0, 5%, 64%);
+$background_color: hsl(0, 2%, 82%);
 $background_color_hover: rgb(85, 83, 83);
 *,
 *::before,
@@ -21,6 +21,54 @@ html {
     padding: 5px 20px;
     bottom: 0;
     top: 0;
+    .point {
+      display: flex;
+      justify-content: center;
+      justify-items: center;
+
+      transform: translate(0%, 10%);
+      font-size: 16px;
+
+      .play-again,
+      .reload,
+      .save,
+      #back {
+        display: flex;
+        width: 100px;
+        border: 1px solid;
+        height: 35px;
+        align-items: center;
+        background-color: aquamarine;
+        justify-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+        &:hover {
+          background-color: brown;
+        }
+        &:active {
+          background-color: darkgreen;
+        }
+      }
+
+      .remaining {
+        text-align: center;
+        width: 100px;
+        position: fixed;
+        top: 20px;
+        left: 10px;
+        background-color: aquamarine;
+      }
+      .mistakes {
+        text-align: center;
+        width: 100px;
+        position: fixed;
+        background-color: aquamarine;
+        position: fixed;
+        top: 80px;
+        left: 10px;
+      }
+    }
     .honeycomb {
       width: 1420px;
       margin: 0 auto;

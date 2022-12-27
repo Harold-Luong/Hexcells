@@ -332,10 +332,10 @@ const renderObjectHexcells = () => {
       if (default_number_left.has(i)) {
         arr.push({
           ...objHex,
-          id_content: "i" + i,
+          id: "i" + i,
           hidden_class: hidden_class,
           hexagontent: {
-            id: "c" + i,
+            id_content: "c" + i,
             main_content_class: main_content_class,
             visible_v_class: visible_v_class,
             content: default_number_left.get(i),
@@ -358,10 +358,10 @@ const renderObjectHexcells = () => {
       } else if (default_number_top.has(i)) {
         arr.push({
           ...objHex,
-          id_content: "i" + i,
+          id: "i" + i,
           hidden_class: hidden_class,
           hexagontent: {
-            id: "c" + i,
+            id_content: "c" + i,
             main_content_class: main_content_class,
             visible_v_class: visible_v_class,
             content: default_number_top.get(i),
@@ -371,9 +371,12 @@ const renderObjectHexcells = () => {
       } else {
         arr.push({
           ...objHex,
-          id_content: "i" + i,
+          id: "i" + i,
           hidden_class: hidden_class,
-          hexagontent: { id: "c" + i, main_content_class: main_content_class },
+          hexagontent: {
+            id_content: "c" + i,
+            main_content_class: main_content_class,
+          },
         });
       }
     }

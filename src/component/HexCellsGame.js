@@ -7,8 +7,29 @@ import {
   arr_result_blue,
 } from "../data";
 const HexCellsGame = () => {
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener("unload", handleTabClosing);
+
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener("unload", handleTabClosing);
+    };
+  });
+
+  const handleTabClosing = () => {
+    console.log("close");
+  };
+
+  const alertUser = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+    handleSave();
+  };
   const arr_blue = arr_result_blue();
   const arrHexCellFromLocal = window.localStorage.getItem("hexcells");
+  const [remaining, setRemaning] = useState(147);
+  const [mistakes, setMistakes] = useState(0);
 
   /**
    * check localStorage
@@ -20,35 +41,49 @@ const HexCellsGame = () => {
       JSON.stringify(renderObjectHexcells())
     );
   }
-
-  const [hexCells, setHexCells] = useState(0);
-  // const [hexCells, setHexCells] = useState(renderObjectHexcells());
-
-  //// prehex
-  const ref = useRef();
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = hexCells;
-  }, [hexCells]); // Only re-run if value changes
-  //
+  const [hexCells, setHexCells] = useState(renderObjectHexcells());
 
   /**
    * back hex
    */
-  const handleback = () => {
-    setHexCells((hexCells) => hexCells + 1);
+  const handlePrevious = () => {
+    //setHexCells((hexCells) => hexCells + 1);
+    const getObjUpdateFromLocal = JSON.parse(
+      window.localStorage.getItem("previous")
+    );
+    if (getObjUpdateFromLocal !== null) {
+      const listHex = [...hexCells];
+      let objPre = listHex.find((item) => item.id === getObjUpdateFromLocal.id);
+
+      if (objPre !== null) {
+        objPre.blue_class = null;
+        objPre.black_class = null;
+        objPre.status_check_click = false;
+        setHexCells(listHex);
+        window.localStorage.removeItem("previous");
+      }
+    } else {
+      alert("You can only press the back button once!!!");
+    }
   };
 
   /**
    * load data save
    */
-  const handleClickPlayAgain = () => {
+  const handleResume = () => {
     const getObjUpdateFromLocal = JSON.parse(
       window.localStorage.getItem("hexcells-update")
     );
-    !getObjUpdateFromLocal
-      ? alert("Ban chua lu data")
-      : setHexCells(getObjUpdateFromLocal);
+
+    if (!getObjUpdateFromLocal) {
+      alert("You are not save!");
+    } else {
+      const mis = parseInt(window.localStorage.getItem("mistakes"));
+      const re = parseInt(window.localStorage.getItem("remaining"));
+      setHexCells(getObjUpdateFromLocal);
+      setMistakes(mis);
+      setRemaning(re);
+    }
   };
 
   /**
@@ -65,13 +100,21 @@ const HexCellsGame = () => {
   const handleSave = () => {
     const partStringArr = JSON.stringify(hexCells);
     window.localStorage.setItem("hexcells-update", partStringArr);
+    window.localStorage.setItem("mistakes", mistakes);
+    window.localStorage.setItem("remaining", remaining);
+    console.log("Save success! ");
+    alert("Save success! ");
   };
   /**
    *handle reload game
    */
-  const handleReset = () => {
-    const getObjFromLocal = JSON.parse(window.localStorage.getItem("hexcells"));
-    setHexCells(getObjFromLocal);
+  const handleReload = () => {
+    window.localStorage.clear();
+    //  const getObjFromLocal = JSON.parse(window.localStorage.getItem("hexcells"));
+
+    setHexCells(renderObjectHexcells());
+    setMistakes(0);
+    setRemaning(147);
   };
   /**
    * right click and left click
@@ -83,27 +126,30 @@ const HexCellsGame = () => {
     //position ID in arr = idHex -1 (because idHex start from 1)
     const positionIdInArrHexCells = handleFortmatId(idHex) - 1;
     let objHexOnClick = hexCells[positionIdInArrHexCells];
-
     switch (event.nativeEvent.button) {
       //Left click (synthetic event)
       case 0:
         // positionIdInArrHexCells + 1 because arr_blue has id start from 1
-        if (arr_blue.includes(positionIdInArrHexCells + 1)) {
+        if (
+          arr_blue.includes(positionIdInArrHexCells + 1) &&
+          objHexOnClick.status_check_click === false
+        ) {
           objHexOnClick.blue_class = "blue_node";
           objHexOnClick.status_check_click = true;
-          console.log(objHexOnClick);
           setHexCells(
             [...hexCells],
             (hexCells[positionIdInArrHexCells] = objHexOnClick)
           );
-        } else {
+          setRemaning((remaining) => remaining - 1);
+        } else if (objHexOnClick.status_check_click === false) {
           objHexOnClick.buzz_class = "buzz";
-          objHexOnClick.status_check_click = true;
+          // objHexOnClick.status_check_click = true;
           setHexCells(
             [...hexCells],
             (hexCells[positionIdInArrHexCells] = objHexOnClick)
           );
-
+          setMistakes((mistakes) => mistakes + 1);
+          //delete class buzz
           setTimeout(() => {
             objHexOnClick.buzz_class = null;
             setHexCells(
@@ -113,24 +159,40 @@ const HexCellsGame = () => {
           }, 500);
         }
 
+        if (
+          objHexOnClick.blue_class != null ||
+          objHexOnClick.black_class !== null
+        ) {
+          window.localStorage.setItem(
+            "previous",
+            JSON.stringify(objHexOnClick)
+          );
+        }
+
         break;
       //Right click (synthetic event)
       case 2:
-        if (!arr_blue.includes(positionIdInArrHexCells + 1) === true) {
+        if (
+          !arr_blue.includes(positionIdInArrHexCells + 1) === true &&
+          objHexOnClick.status_check_click === false
+        ) {
           let objHexOnClick = hexCells[positionIdInArrHexCells];
+          objHexOnClick.status_check_click = true;
           objHexOnClick.black_class = "black_node";
           setHexCells(
             [...hexCells],
             (hexCells[positionIdInArrHexCells] = objHexOnClick)
           );
-        } else {
+          //setRemaning((remaining) => remaining - 1);
+        } else if (objHexOnClick.status_check_click === false) {
           let objHexOnClick = hexCells[positionIdInArrHexCells];
           objHexOnClick.buzz_class = "buzz";
           setHexCells(
             [...hexCells],
             (hexCells[positionIdInArrHexCells] = objHexOnClick)
           );
-
+          setMistakes((mistakes) => mistakes + 1);
+          //delete class buzz
           setTimeout(() => {
             objHexOnClick.buzz_class = null;
             setHexCells(
@@ -138,6 +200,15 @@ const HexCellsGame = () => {
               (hexCells[positionIdInArrHexCells] = objHexOnClick)
             );
           }, 500);
+        }
+        if (
+          objHexOnClick.blue_class != null ||
+          objHexOnClick.black_class !== null
+        ) {
+          window.localStorage.setItem(
+            "previous",
+            JSON.stringify(objHexOnClick)
+          );
         }
         break;
       default:
@@ -148,41 +219,45 @@ const HexCellsGame = () => {
 
   return (
     <div>
-      {console.log("render")}
       <div className="point">
         <div className="remaining">
-          REMAINING
-          {/* <h2 id="number-remaining">{point.remaining}</h2> */}
+          REMAINING <br />
+          <h2 id="number-remaining">{remaining}</h2>
         </div>
         <br />
         <div className="mistakes">
           MISTAKES
-          {/* <h2 id="number-mistakes">{point.mistakes}</h2> */}
+          <h2 id="number-remaining">{mistakes}</h2>
         </div>
         <br />
-        <button className="reload" onClick={handleReset}>
+        <div className="reload" onClick={handleReload}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
-          </svg>
-        </button>
+          </svg>{" "}
+          Reload
+        </div>
         <br />
-        <button onClick={handleSave}>Save</button>
+        {/* <div className="save" onClick={handleSave}>
+          Save game
+        </div> */}
         <br />
-        <button onClick={handleClickPlayAgain}>Play again</button>
+        <div className="play-again" onClick={handleResume}>
+          Resume
+        </div>
         <br />
-        <button id="back" onClick={handleback}>
-          Back{hexCells} + {ref.current}
-        </button>
+        <div id="back" onClick={handlePrevious}>
+          Previous step
+        </div>
       </div>
       {/* hexcells */}
       <div className="honeycomb">
         <div className="ibws-fix">
-          {/* {hexCells.map((item, key) => {
+          {hexCells.map((item, key) => {
             return (
               <div
                 onClick={handleClick}
@@ -213,7 +288,7 @@ const HexCellsGame = () => {
                 </div>
               </div>
             );
-          })} */}
+          })}
         </div>
       </div>
     </div>
