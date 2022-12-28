@@ -1,7 +1,7 @@
 const main_class = "hexagon";
 const black_class = "black_node";
 const blue_class = "blue_node";
-const buzz_class = "buzz";
+
 const hidden_class = "hexanone";
 const status_check_click = false;
 const main_content_class = "hexagontent";

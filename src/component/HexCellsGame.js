@@ -1,33 +1,44 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "../style/hexcells-style.scss";
+
 import {
   renderObjectHexcells,
   handleFortmatId,
   arr_result_blue,
 } from "../data";
+
 const HexCellsGame = () => {
-  useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    window.addEventListener("unload", handleTabClosing);
-
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-      window.removeEventListener("unload", handleTabClosing);
-    };
-  });
-
-  const handleTabClosing = () => {
-    console.log("close");
-  };
-
-  const alertUser = (event) => {
+  /**
+   *handle event close tab and reload tab
+   */
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", saveEvent);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", saveEvent);
+  //   };
+  // });
+  /**
+   * save data when user close or relaod tab
+   */
+  const saveEvent = (event) => {
     event.preventDefault();
     event.returnValue = "";
     handleSave();
   };
+  //
+
+  // const handleChange = (newValue) => {
+  //   window.localStorage.setItem("hexcells", JSON.stringify(newValue));
+  //   return newValue;
+  // };
+
+  //arr total hexBlue
   const arr_blue = arr_result_blue();
+  //arr get from locale
   const arrHexCellFromLocal = window.localStorage.getItem("hexcells");
+  //point
+
   const [remaining, setRemaning] = useState(147);
   const [mistakes, setMistakes] = useState(0);
 
@@ -41,20 +52,23 @@ const HexCellsGame = () => {
       JSON.stringify(renderObjectHexcells())
     );
   }
+  // state data json
   const [hexCells, setHexCells] = useState(renderObjectHexcells());
 
   /**
-   * back hex
+   * Previous once hex
    */
   const handlePrevious = () => {
     //setHexCells((hexCells) => hexCells + 1);
     const getObjUpdateFromLocal = JSON.parse(
       window.localStorage.getItem("previous")
     );
+    //check localStorage
     if (getObjUpdateFromLocal !== null) {
+      //copy arr
       const listHex = [...hexCells];
       let objPre = listHex.find((item) => item.id === getObjUpdateFromLocal.id);
-
+      //if obj local has in arr
       if (objPre !== null) {
         objPre.blue_class = null;
         objPre.black_class = null;
@@ -68,11 +82,11 @@ const HexCellsGame = () => {
   };
 
   /**
-   * load data save
+   * load data save localStorage
    */
   const handleResume = () => {
     const getObjUpdateFromLocal = JSON.parse(
-      window.localStorage.getItem("hexcells-update")
+      window.localStorage.getItem("hexcells-resume")
     );
 
     if (!getObjUpdateFromLocal) {
@@ -99,10 +113,10 @@ const HexCellsGame = () => {
    */
   const handleSave = () => {
     const partStringArr = JSON.stringify(hexCells);
-    window.localStorage.setItem("hexcells-update", partStringArr);
+    window.localStorage.setItem("hexcells-resume", partStringArr);
     window.localStorage.setItem("mistakes", mistakes);
     window.localStorage.setItem("remaining", remaining);
-    console.log("Save success! ");
+
     alert("Save success! ");
   };
   /**
@@ -216,6 +230,32 @@ const HexCellsGame = () => {
         break;
     }
   };
+  /**
+   * export JSON data
+   */
+  const exportData = () => {
+    const obj = [{ mistakes: mistakes, remaining: remaining }];
+    const data = [[...obj], hexCells];
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+    link.click();
+  };
+  /**
+   * import json data
+   */
+  const handleImportJson = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      setHexCells(JSON.parse(e.target.result)[1]);
+      setMistakes(JSON.parse(e.target.result)[0][0].mistakes);
+      setRemaning(JSON.parse(e.target.result)[0][0].remaining);
+    };
+  };
 
   return (
     <div>
@@ -242,9 +282,9 @@ const HexCellsGame = () => {
           Reload
         </div>
         <br />
-        {/* <div className="save" onClick={handleSave}>
+        <div className="save" onClick={handleSave}>
           Save game
-        </div> */}
+        </div>
         <br />
         <div className="play-again" onClick={handleResume}>
           Resume
@@ -253,6 +293,22 @@ const HexCellsGame = () => {
         <div id="back" onClick={handlePrevious}>
           Previous step
         </div>
+        <div className="export-data" onClick={exportData}>
+          Export Json
+        </div>
+
+        <label htmlFor="importJson" className="import-data">
+          Import Json
+        </label>
+        <input
+          id="importJson"
+          type="file"
+          name="file"
+          className="input-data"
+          onChange={handleImportJson}
+        />
+
+        {/* <UploadFile dataJSON={handleChange} /> */}
       </div>
       {/* hexcells */}
       <div className="honeycomb">

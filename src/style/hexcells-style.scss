@@ -32,6 +32,8 @@ html {
       .play-again,
       .reload,
       .save,
+      .export-data,
+      .import-data,
       #back {
         display: flex;
         width: 100px;
@@ -49,6 +51,14 @@ html {
         &:active {
           background-color: darkgreen;
         }
+      }
+
+      .import-data {
+        width: auto !important;
+      }
+      .input-data {
+        height: 100%;
+        display: none;
       }
 
       .remaining {
@@ -190,7 +200,9 @@ html {
     }
   }
 }
-
+label {
+  padding: 0 4px;
+}
 // effect buzz
 .df-num {
   pointer-events: all !important;
