@@ -8,16 +8,15 @@ import {
 } from "../data";
 
 const HexCellsGame = () => {
-  console.log(renderObjectHexcells());
   /**
    *handle event close tab and reload tab
    */
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", handleSaveEvent);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleSaveEvent);
-  //   };
-  // });
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleSaveEvent);
+    return () => {
+      window.removeEventListener("beforeunload", handleSaveEvent);
+    };
+  });
   /**
    * save data when user close or relaod tab
    */
@@ -112,8 +111,7 @@ const HexCellsGame = () => {
     window.localStorage.setItem("hexcells-resume", partStringArr);
     window.localStorage.setItem("mistakes", mistakes);
     window.localStorage.setItem("remaining", remaining);
-
-    // alert("Save success! ");
+    alert("Save success! ");
   };
   /**
    *Handle reload game
@@ -134,7 +132,7 @@ const HexCellsGame = () => {
    */
   let handleClick = (event) => {
     event.preventDefault();
-    console.log(event);
+
     const idHex = event.target.id;
     //position ID in arr = idHex -1 (because idHex start from 1)
     const positionIdInArrHexCells = handleFortmatId(idHex) - 1;
