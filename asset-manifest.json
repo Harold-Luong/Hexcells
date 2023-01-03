@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Hexcells/static/css/main.a0cbaeae.css",
-    "main.js": "/Hexcells/static/js/main.1fd0984e.js",
+    "main.js": "/Hexcells/static/js/main.9a95e338.js",
     "index.html": "/Hexcells/index.html",
     "main.a0cbaeae.css.map": "/Hexcells/static/css/main.a0cbaeae.css.map",
-    "main.1fd0984e.js.map": "/Hexcells/static/js/main.1fd0984e.js.map"
+    "main.9a95e338.js.map": "/Hexcells/static/js/main.9a95e338.js.map"
   },
   "entrypoints": [
     "static/css/main.a0cbaeae.css",
-    "static/js/main.1fd0984e.js"
+    "static/js/main.9a95e338.js"
   ]
 }
