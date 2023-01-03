@@ -264,7 +264,7 @@ const HexCellsGame = () => {
       .getElementById("importJson")
       .value.replace(/C:\\fakepath\\/i, "");
 
-    setlabelInput(nameData);
+    setlabelInput("Import Data" + ": " + nameData);
     document.getElementById("importJson").value = null;
   };
 
@@ -290,7 +290,7 @@ const HexCellsGame = () => {
           >
             <path d="M5 18c4.667 4.667 12 1.833 12-4.042h-3l5-6 5 6h-3c-1.125 7.98-11.594 11.104-16 4.042zm14-11.984c-4.667-4.667-12-1.834-12 4.041h3l-5 6-5-6h3c1.125-7.979 11.594-11.104 16-4.041z" />
           </svg>{" "}
-          Reload
+          New game
         </div>
         <br />
 //         <div className="save" onClick={handleSave}>
