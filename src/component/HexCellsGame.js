@@ -293,9 +293,9 @@ const HexCellsGame = () => {
           Reload
         </div>
         <br />
-        <div className="save" onClick={handleSave}>
-          Save game
-        </div>
+//         <div className="save" onClick={handleSave}>
+//           Save game
+//         </div>
         <br />
         <div className="play-again" onClick={handleResume}>
           Resume
