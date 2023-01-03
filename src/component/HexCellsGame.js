@@ -18,7 +18,7 @@ const HexCellsGame = () => {
     };
   });
   /**
-   * save data when user close or relaod tab
+   * save data when user close or reload tab
    */
   const handleSaveEvent = (event) => {
     event.preventDefault();
@@ -34,6 +34,7 @@ const HexCellsGame = () => {
 
   const [remaining, setRemaning] = useState(147);
   const [mistakes, setMistakes] = useState(0);
+  const [labelInput, setlabelInput] = useState("Import Data");
 
   /**
    * check localStorage
@@ -65,8 +66,10 @@ const HexCellsGame = () => {
       let objPre = listHex.find((item) => item.id === getObjUpdateFromLocal.id);
       //if obj local has in arr
       if (objPre !== null) {
-        objPre.blue_class = null;
-        objPre.black_class = null;
+        // objPre.blue_class = null;
+        // objPre.black_class = null;
+        delete objPre.blue_class;
+        delete objPre.black_class;
         objPre.status_check_click = false;
         setHexCells(listHex);
         window.localStorage.removeItem("previous");
@@ -116,7 +119,8 @@ const HexCellsGame = () => {
   /**
    *Handle reload game
    */
-  const handleReload = () => {
+  const handleReload = (event) => {
+    event.preventDefault();
     window.localStorage.clear();
     //  const getObjFromLocal = JSON.parse(window.localStorage.getItem("hexcells"));
 
@@ -124,13 +128,15 @@ const HexCellsGame = () => {
     setHexCells(arrHexCellFromLocalParseJSON);
     setMistakes(0);
     setRemaning(147);
-    window.location.reload(false);
+    setlabelInput("Import Data");
+
+    // window.location.reload(false);
   };
   /**
    * right click and left click
    * @param {*} event
    */
-  let handleClick = (event) => {
+  const handleClick = (event) => {
     event.preventDefault();
 
     const idHex = event.target.id;
@@ -171,8 +177,8 @@ const HexCellsGame = () => {
         }
 
         if (
-          objHexOnClick.blue_class != null ||
-          objHexOnClick.black_class !== null
+          objHexOnClick.blue_class !== undefined ||
+          objHexOnClick.black_class !== undefined
         ) {
           window.localStorage.setItem(
             "previous",
@@ -213,8 +219,8 @@ const HexCellsGame = () => {
           }, 500);
         }
         if (
-          objHexOnClick.blue_class != null ||
-          objHexOnClick.black_class !== null
+          objHexOnClick.blue_class !== undefined ||
+          objHexOnClick.black_class !== undefined
         ) {
           window.localStorage.setItem(
             "previous",
@@ -246,6 +252,7 @@ const HexCellsGame = () => {
    * import json data
    */
   const handleImportJson = (e) => {
+    e.preventDefault();
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
@@ -253,6 +260,12 @@ const HexCellsGame = () => {
       setMistakes(JSON.parse(e.target.result)[0][0].mistakes);
       setRemaning(JSON.parse(e.target.result)[0][0].remaining);
     };
+    const nameData = document
+      .getElementById("importJson")
+      .value.replace(/C:\\fakepath\\/i, "");
+
+    setlabelInput(nameData);
+    document.getElementById("importJson").value = null;
   };
 
   return (
@@ -295,14 +308,15 @@ const HexCellsGame = () => {
           Export Data
         </div>
 
-        <label htmlFor="importJson" className="import-data">
-          Import Data
+        <label htmlFor="importJson" className="import-data" id="lableInput">
+          {labelInput}
         </label>
         <input
+          placeholder="Import Data"
           id="importJson"
           type="file"
           name="file"
-          className="input-data"
+          className="input-data "
           onChange={handleImportJson}
         />
       </div>
