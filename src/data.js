@@ -72,7 +72,7 @@ const hex_none = [
   192, 204, 408, 420, 522, 90, 235, 236, 273, 309, 345, 381, 380, 415, 413, 376,
   375, 339, 303, 267, 232, 233,
 ];
-// gia trị của các ô hex
+//giá trị của các ô hex
 const genArrValue = () => {
   let mapValue = [];
   mapValue.push("?", 12, 13, 12, "?", "", "-3-", "", 2, 2, "", "?", 1, 2, 2, 1); //9
@@ -201,7 +201,6 @@ const genHexCells = () => {
   let arr = [];
   let x = generateArrTop();
   let y = generateArrBottom();
-
   for (let i = 0; i < x.length; i++) {
     let count = x[i];
     let check = false;
@@ -209,7 +208,7 @@ const genHexCells = () => {
     while (check !== true) {
       count += 36;
       arr.push(count);
-      //gen từ dong trên thẳng xướng dòng dưới, đụng dòng dưới thì dừng,
+      //gen từ dong trên thẳng xướng dòng dưới, chạm dòng dưới thì dừng,
       //gán check = true nếu có
       check = y.includes(count);
     }
@@ -263,25 +262,12 @@ default_number_top.set(177, 9);
 
 //list hexagon of hexcells
 const objHex = {
-  id: null,
+  //id: null,
   main_class: main_class,
-  black_class: null,
-  blue_class: null,
-  buzz_class: null,
-  hidden_class: null,
-  visible_class: null,
   status_check_click: status_check_click,
-  hexagontent: {
-    id_content: null,
-    content: null,
-    main_content_class: main_content_class,
-    visible_v_class: null,
-    hidden_v_class: null,
-    rotate_straight_class: null,
-    rotate_left_class: null,
-    rotate_right_class: null,
-  },
+  hexagontent: {},
 };
+
 const renderObjectHexcells = () => {
   let arr = [];
   let arrGen = mapALL();
@@ -370,13 +356,9 @@ const renderObjectHexcells = () => {
         });
       } else {
         arr.push({
-          ...objHex,
           id: "i" + i,
           hidden_class: hidden_class,
-          hexagontent: {
-            id_content: "c" + i,
-            main_content_class: main_content_class,
-          },
+          main_class: main_class,
         });
       }
     }

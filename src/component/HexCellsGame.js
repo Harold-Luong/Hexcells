@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../style/hexcells-style.scss";
 
 import {
@@ -9,34 +8,29 @@ import {
 } from "../data";
 
 const HexCellsGame = () => {
+  console.log(renderObjectHexcells());
   /**
    *handle event close tab and reload tab
    */
   // useEffect(() => {
-  //   window.addEventListener("beforeunload", saveEvent);
+  //   window.addEventListener("beforeunload", handleSaveEvent);
   //   return () => {
-  //     window.removeEventListener("beforeunload", saveEvent);
+  //     window.removeEventListener("beforeunload", handleSaveEvent);
   //   };
   // });
   /**
    * save data when user close or relaod tab
    */
-  const saveEvent = (event) => {
+  const handleSaveEvent = (event) => {
     event.preventDefault();
     event.returnValue = "";
     handleSave();
   };
-  //
-
-  // const handleChange = (newValue) => {
-  //   window.localStorage.setItem("hexcells", JSON.stringify(newValue));
-  //   return newValue;
-  // };
 
   //arr total hexBlue
   const arr_blue = arr_result_blue();
   //arr get from locale
-  const arrHexCellFromLocal = window.localStorage.getItem("hexcells");
+  let arrHexCellFromLocal = window.localStorage.getItem("hexcells");
   //point
 
   const [remaining, setRemaning] = useState(147);
@@ -51,12 +45,14 @@ const HexCellsGame = () => {
       "hexcells",
       JSON.stringify(renderObjectHexcells())
     );
+    arrHexCellFromLocal = window.localStorage.getItem("hexcells");
   }
-  // state data json
-  const [hexCells, setHexCells] = useState(renderObjectHexcells());
+  const arrHexCellFromLocalParseJSON = JSON.parse(arrHexCellFromLocal);
+  //State data json
+  const [hexCells, setHexCells] = useState(arrHexCellFromLocalParseJSON);
 
   /**
-   * Previous once hex
+   * Previous once step hex
    */
   const handlePrevious = () => {
     //setHexCells((hexCells) => hexCells + 1);
@@ -82,7 +78,7 @@ const HexCellsGame = () => {
   };
 
   /**
-   * load data save localStorage
+   * Load data save localStorage
    */
   const handleResume = () => {
     const getObjUpdateFromLocal = JSON.parse(
@@ -101,15 +97,15 @@ const HexCellsGame = () => {
   };
 
   /**
-   * check class null undefine or "";
+   * Check class null undefine or "";
    * @param {*} class_name
    * @returns
    */
-  const checkUndefine = (class_name) => {
+  const handleCheckClass = (class_name) => {
     return !class_name ? "" : " " + class_name;
   };
   /**
-   * save data to localStorage
+   * Save data to localStorage
    */
   const handleSave = () => {
     const partStringArr = JSON.stringify(hexCells);
@@ -117,18 +113,20 @@ const HexCellsGame = () => {
     window.localStorage.setItem("mistakes", mistakes);
     window.localStorage.setItem("remaining", remaining);
 
-    alert("Save success! ");
+    // alert("Save success! ");
   };
   /**
-   *handle reload game
+   *Handle reload game
    */
   const handleReload = () => {
     window.localStorage.clear();
     //  const getObjFromLocal = JSON.parse(window.localStorage.getItem("hexcells"));
 
-    setHexCells(renderObjectHexcells());
+    window.localStorage.removeItem("hexcells");
+    setHexCells(arrHexCellFromLocalParseJSON);
     setMistakes(0);
     setRemaning(147);
+    window.location.reload(false);
   };
   /**
    * right click and left click
@@ -136,6 +134,7 @@ const HexCellsGame = () => {
    */
   let handleClick = (event) => {
     event.preventDefault();
+    console.log(event);
     const idHex = event.target.id;
     //position ID in arr = idHex -1 (because idHex start from 1)
     const positionIdInArrHexCells = handleFortmatId(idHex) - 1;
@@ -165,7 +164,7 @@ const HexCellsGame = () => {
           setMistakes((mistakes) => mistakes + 1);
           //delete class buzz
           setTimeout(() => {
-            objHexOnClick.buzz_class = null;
+            delete objHexOnClick.buzz_class;
             setHexCells(
               [...hexCells],
               (hexCells[positionIdInArrHexCells] = objHexOnClick)
@@ -182,7 +181,7 @@ const HexCellsGame = () => {
             JSON.stringify(objHexOnClick)
           );
         }
-
+        // handleSave();
         break;
       //Right click (synthetic event)
       case 2:
@@ -208,7 +207,7 @@ const HexCellsGame = () => {
           setMistakes((mistakes) => mistakes + 1);
           //delete class buzz
           setTimeout(() => {
-            objHexOnClick.buzz_class = null;
+            delete objHexOnClick.buzz_class;
             setHexCells(
               [...hexCells],
               (hexCells[positionIdInArrHexCells] = objHexOnClick)
@@ -224,6 +223,7 @@ const HexCellsGame = () => {
             JSON.stringify(objHexOnClick)
           );
         }
+        //handleSave();
         break;
       default:
         alert("Right or left click!");
@@ -294,11 +294,11 @@ const HexCellsGame = () => {
           Previous step
         </div>
         <div className="export-data" onClick={exportData}>
-          Export Json
+          Export Data
         </div>
 
         <label htmlFor="importJson" className="import-data">
-          Import Json
+          Import Data
         </label>
         <input
           id="importJson"
@@ -307,10 +307,8 @@ const HexCellsGame = () => {
           className="input-data"
           onChange={handleImportJson}
         />
-
-        {/* <UploadFile dataJSON={handleChange} /> */}
       </div>
-      {/* hexcells */}
+
       <div className="honeycomb">
         <div className="ibws-fix">
           {hexCells.map((item, key) => {
@@ -322,26 +320,30 @@ const HexCellsGame = () => {
                 id={item.id}
                 className={
                   item.main_class +
-                  checkUndefine(item.hidden_class) +
-                  checkUndefine(item.black_class) +
-                  checkUndefine(item.blue_class) +
-                  checkUndefine(item.buzz_class) +
-                  checkUndefine(item.visible_class)
+                  handleCheckClass(item.hidden_class) +
+                  handleCheckClass(item.black_class) +
+                  handleCheckClass(item.blue_class) +
+                  handleCheckClass(item.buzz_class) +
+                  handleCheckClass(item.visible_class)
                 }
               >
-                <div
-                  className={
-                    item.hexagontent.main_content_class +
-                    checkUndefine(item.hexagontent.hidden_v_class) +
-                    checkUndefine(item.hexagontent.visible_v_class) +
-                    checkUndefine(item.hexagontent.rotate_straight_class) +
-                    checkUndefine(item.hexagontent.rotate_left_class) +
-                    checkUndefine(item.hexagontent.rotate_right_class)
-                  }
-                  id={item.hexagontent.id_content}
-                >
-                  {item.hexagontent.content}
-                </div>
+                {item.hexagontent ? (
+                  <div
+                    className={
+                      item.hexagontent.main_content_class +
+                      handleCheckClass(item.hexagontent.hidden_v_class) +
+                      handleCheckClass(item.hexagontent.visible_v_class) +
+                      handleCheckClass(item.hexagontent.rotate_straight_class) +
+                      handleCheckClass(item.hexagontent.rotate_left_class) +
+                      handleCheckClass(item.hexagontent.rotate_right_class)
+                    }
+                    id={item.hexagontent.id_content}
+                  >
+                    {item.hexagontent.content}
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             );
           })}

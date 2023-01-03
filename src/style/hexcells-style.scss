@@ -16,7 +16,7 @@ html {
   font-size: 62.5%;
   body {
     background-color: $background_color;
-    max-width: auto;
+
     margin: 0 auto;
     padding: 5px 20px;
     bottom: 0;
@@ -25,10 +25,8 @@ html {
       display: flex;
       justify-content: center;
       justify-items: center;
-
       transform: translate(0%, 10%);
       font-size: 16px;
-
       .play-again,
       .reload,
       .save,
@@ -52,7 +50,6 @@ html {
           background-color: darkgreen;
         }
       }
-
       .import-data {
         width: auto !important;
       }
@@ -60,7 +57,6 @@ html {
         height: 100%;
         display: none;
       }
-
       .remaining {
         text-align: center;
         width: 100px;
